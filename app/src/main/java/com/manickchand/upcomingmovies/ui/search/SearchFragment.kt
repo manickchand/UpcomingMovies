@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,6 +14,7 @@ import com.manickchand.upcomingmovies.base.BaseFragment
 import com.manickchand.upcomingmovies.models.Genre
 import com.manickchand.upcomingmovies.ui.searchList.SearchListActivity
 import com.manickchand.upcomingmovies.utils.hasInternet
+import com.manickchand.upcomingmovies.utils.showToast
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class SearchFragment : BaseFragment() {
@@ -41,7 +41,7 @@ class SearchFragment : BaseFragment() {
             layoutManager = GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false)
             setHasFixedSize(true)
             adapter = SearchGenreAdapter(context, mList){ genre ->
-//                Toast.makeText(activity, "Click ${genre.name}", Toast.LENGTH_SHORT).show()
+                //SEARCH BY GENRE
                 val intent = SearchListActivity.getStartIntent(activity!!, null, genre)
                 activity!!.startActivity(intent)
             }
@@ -55,7 +55,11 @@ class SearchFragment : BaseFragment() {
         })
 
         searchViewModel.hasErrorLiveData.observe(this, Observer {error ->
-            if (error) Toast.makeText(context, "Error get genre list !", Toast.LENGTH_SHORT).show()
+            if (error) showToast("Error get genre list !")
+        })
+
+        searchViewModel.loading.observe(this, Observer { load ->
+            swiperefresh_genres.isRefreshing = load
         })
 
         swiperefresh_genres.setColorSchemeResources(R.color.colorBlack)
@@ -63,18 +67,19 @@ class SearchFragment : BaseFragment() {
             this.checkConnection()
         }
 
-        searchViewModel.loading.observe(this, Observer { load ->
-            swiperefresh_genres.isRefreshing = load
-        })
-
         checkConnection()
     }
 
-    fun searchListener(){
+    private fun searchListener(){
         et_search.setOnEditorActionListener{v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_SEARCH){
-                val intent = SearchListActivity.getStartIntent(activity!!, et_search.text.toString(), null)
-                activity!!.startActivity(intent)
+                val str = et_search.text.toString()
+                if(str.isNotEmpty()) {
+                    val intent = SearchListActivity.getStartIntent(activity!!, str, null)
+                    activity!!.startActivity(intent)
+                }else{
+                    showToast("fill in the field")
+                }
                 true
             } else {
                 false
@@ -86,7 +91,7 @@ class SearchFragment : BaseFragment() {
         if(hasInternet(activity)){
             searchViewModel.getAllGenres()
         }else{
-            Toast.makeText(context, "Connection error !", Toast.LENGTH_SHORT).show()
+            showToast("Connection error !")
         }
     }
 

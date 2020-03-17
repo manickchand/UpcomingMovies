@@ -12,7 +12,7 @@ import com.manickchand.upcomingmovies.models.Movie
 
 class UpcomingAdapter(context: Context,
                       list: List<Movie>,
-                      val onItemClickListener:((movie:Movie) -> Unit) ) : RecyclerView.Adapter<UpcomingAdapter.MyViewHolder?>() {
+                      private val onItemClickListener:((movie:Movie) -> Unit) ) : RecyclerView.Adapter<UpcomingAdapter.MyViewHolder?>() {
 
     private var mContext =context
     private var mList = list

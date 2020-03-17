@@ -2,10 +2,9 @@ package com.manickchand.upcomingmovies.ui.searchList
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +15,7 @@ import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailActivity
 import com.manickchand.upcomingmovies.utils.IConnectionUtils
 import com.manickchand.upcomingmovies.utils.hasInternet
+import com.manickchand.upcomingmovies.utils.showToast
 import kotlinx.android.synthetic.main.activity_search_list.*
 
 class SearchListActivity : AppCompatActivity(), IConnectionUtils {
@@ -47,10 +47,10 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
             title = genre?.name
         }
 
+        setupRecyclerView()
+
         searchListViewModel =
             ViewModelProviders.of(this).get(SearchListViewModel::class.java)
-
-        setupRecyclerView()
 
         searchListViewModel.searchListLiveData.observe(this, Observer {
             it?.let { pair ->
@@ -62,7 +62,7 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
         })
 
         searchListViewModel.hasErrorLiveData.observe(this, Observer {error ->
-            if (error) Toast.makeText(this, "Error search movies !", Toast.LENGTH_SHORT).show()
+            if (error) showToast("Error search movies !")
         })
 
         searchListViewModel.loading.observe(this, Observer { load ->
@@ -115,9 +115,8 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
             }else if(genre!=null){
                 searchListViewModel.getByGenre(genre!!.id!!, pageLoad)
             }
-
         }else{
-            Toast.makeText(this, "Connection error !", Toast.LENGTH_SHORT).show()
+            showToast("Connection error !")
         }
     }
 

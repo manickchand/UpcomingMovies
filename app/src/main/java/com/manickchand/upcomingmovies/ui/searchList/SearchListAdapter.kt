@@ -44,7 +44,6 @@ class SearchListAdapter(context: Context,
                              private val onItemClickListener: ((movie: Movie) -> Unit)) :RecyclerView.ViewHolder(binding.root){
 
         fun bindMovie(movie: Movie) {
-
             binding.movie = movie
             binding.root.setOnClickListener{
                 onItemClickListener.invoke(movie)

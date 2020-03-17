@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,6 +14,7 @@ import com.manickchand.upcomingmovies.base.BaseFragment
 import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailActivity
 import com.manickchand.upcomingmovies.utils.hasInternet
+import com.manickchand.upcomingmovies.utils.showToast
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment() {
@@ -25,7 +25,7 @@ class HomeFragment : BaseFragment() {
     private var totalItemCount = 0
     private var loading = false
     private var pageLoad = 1
-    private var total_pages =0
+    private var totalPages =0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,14 +45,14 @@ class HomeFragment : BaseFragment() {
         homeViewModel.moviesLiveData.observe(this, Observer {
             it?.let { pair ->
                 mList.addAll(pair.first!!)
-                total_pages = pair.second
+                totalPages = pair.second
                 rv_upcoming_movies.adapter!!.notifyDataSetChanged()
                 loading = false
             }
         })
 
         homeViewModel.hasErrorLiveData.observe(this, Observer {error ->
-            if (error) Toast.makeText(context, "Error get upcomming list !", Toast.LENGTH_SHORT).show()
+            if (error) showToast("Error get upcomming list !")
         })
 
         swiperefresh.setColorSchemeResources(R.color.colorBlack)
@@ -67,7 +67,7 @@ class HomeFragment : BaseFragment() {
         checkConnection()
     }
 
-    fun setupRecyclerView(){
+    private fun setupRecyclerView(){
 
         with(rv_upcoming_movies){
 
@@ -83,7 +83,7 @@ class HomeFragment : BaseFragment() {
                         totalItemCount = layoutManager!!.itemCount
                         pastVisiblesItems = (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
 
-                        if (!loading && (pageLoad <= total_pages)) {
+                        if (!loading && (pageLoad <= totalPages)) {
                             if (pastVisiblesItems >= totalItemCount-1) {
 
                                 loading = true
@@ -106,7 +106,7 @@ class HomeFragment : BaseFragment() {
         if(hasInternet(activity)){
             homeViewModel.getUpcomingList(pageLoad)
         }else{
-            Toast.makeText(context, "Connection error !", Toast.LENGTH_SHORT).show()
-        }
+            showToast("Connection error !")
+       }
     }
 }

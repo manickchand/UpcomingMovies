@@ -12,7 +12,7 @@ import com.manickchand.upcomingmovies.models.Genre
 
 class SearchGenreAdapter(context: Context,
                          list: List<Genre>,
-                         val onItemClickListener:((genre:Genre) -> Unit) ) : RecyclerView.Adapter<SearchGenreAdapter.MyViewHolder?>() {
+                         private val onItemClickListener:((genre:Genre) -> Unit) ) : RecyclerView.Adapter<SearchGenreAdapter.MyViewHolder?>() {
 
     private var mContext =context
     private var mList = list
