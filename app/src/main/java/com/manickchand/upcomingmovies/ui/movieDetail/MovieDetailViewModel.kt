@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.manickchand.upcomingmovies.BaseApp
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.repository.RetrofitInit
@@ -29,6 +30,7 @@ class MovieDetailViewModel : BaseViewModel(){
 
             override fun onFailure(call: Call<Movie>, t: Throwable) {
                 Log.e(TAG_DEBUC,"[Error getMovieDetail] "+t.message)
+                _movieDetailLiveData.value = BaseApp.getDB().movieDAO().findById(movie_id)
                 loading.value = false
             }
             override fun onResponse(
@@ -38,6 +40,8 @@ class MovieDetailViewModel : BaseViewModel(){
                 loading.value = false
                 if(response.isSuccessful){
                     _movieDetailLiveData.value = response.body() ?: null
+                    BaseApp.getDB().movieDAO().insertAll(_movieDetailLiveData.value!!)
+
                 }else{
                     Log.e(TAG_DEBUC,"[Response getMovieDetail Error] code: "+response.code())
                 }

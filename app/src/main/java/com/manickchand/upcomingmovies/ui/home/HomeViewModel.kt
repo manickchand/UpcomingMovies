@@ -2,6 +2,7 @@ package com.manickchand.upcomingmovies.ui.home
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.manickchand.upcomingmovies.BaseApp
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.models.Upcoming
@@ -44,5 +45,9 @@ class HomeViewModel : BaseViewModel() {
                 }
             }
         })
+    }
+
+    fun getByDb(){
+        moviesLiveData.value = Pair( BaseApp.getDB().movieDAO().getAll() , 1)
     }
 }

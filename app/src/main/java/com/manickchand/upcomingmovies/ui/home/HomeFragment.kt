@@ -106,6 +106,7 @@ class HomeFragment : BaseFragment() {
         if(hasInternet(activity)){
             homeViewModel.getUpcomingList(pageLoad)
         }else{
+            homeViewModel.getByDb()
             showToast("Connection error !")
        }
     }
