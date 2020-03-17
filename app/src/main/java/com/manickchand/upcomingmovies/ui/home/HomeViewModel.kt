@@ -16,7 +16,6 @@ import retrofit2.Response
 class HomeViewModel : BaseViewModel() {
 
     val moviesLiveData = MutableLiveData< Pair< List<Movie>?, Int> >()
-    val hasErrorLiveData = MutableLiveData<Boolean>()
 
     fun getUpcomingList(page:Int){
 
