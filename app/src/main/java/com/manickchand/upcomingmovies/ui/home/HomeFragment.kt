@@ -54,10 +54,14 @@ class HomeFragment : BaseFragment() {
             if (error) Toast.makeText(context, "Error get upcomming list !", Toast.LENGTH_SHORT).show()
         })
 
+        swiperefresh.setColorSchemeResources(R.color.colorBlack)
+        swiperefresh.setOnRefreshListener{
+            this.checkConnection()
+        }
 
-//        homeViewModel.loading.observe(this, Observer { load ->
-//            pb_top_animes.visibility = if(load) View.VISIBLE else View.GONE
-//        })
+        homeViewModel.loading.observe(this, Observer { load ->
+            swiperefresh.isRefreshing = load
+        })
 
         checkConnection()
     }
