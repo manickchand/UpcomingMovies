@@ -2,7 +2,8 @@ package com.manickchand.upcomingmovies.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.util.*
+import java.util.Date
+
 
 @Parcelize
 data class Movie  (
@@ -16,5 +17,5 @@ data class Movie  (
     var vote_count:Int?,
     var release_date: Date?,
     var vote_average:Double?,
-    var genre_ids:List<Genre>?
+    var genres:List<Genre>?
 ): Parcelable
