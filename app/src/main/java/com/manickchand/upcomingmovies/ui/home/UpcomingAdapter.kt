@@ -12,7 +12,7 @@ import com.manickchand.upcomingmovies.models.Movie
 
 class UpcomingAdapter(context: Context,
                       list: List<Movie>,
-                      val onItemClickListener:((anime:Movie) -> Unit) ) : RecyclerView.Adapter<UpcomingAdapter.MyViewHolder?>() {
+                      val onItemClickListener:((movie:Movie) -> Unit) ) : RecyclerView.Adapter<UpcomingAdapter.MyViewHolder?>() {
 
     private var mContext =context
     private var mList = list
@@ -25,7 +25,7 @@ class UpcomingAdapter(context: Context,
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bindAnime(mList[position])
+        holder.bindMovie(mList[position])
         setAnimation(holder.itemView, position)
     }
 
@@ -43,7 +43,7 @@ class UpcomingAdapter(context: Context,
     inner class MyViewHolder(private val binding: ItemMovieBinding,
                              private val onItemClickListener: ((movie: Movie) -> Unit)) :RecyclerView.ViewHolder(binding.root){
 
-        fun bindAnime(movie: Movie) {
+        fun bindMovie(movie: Movie) {
 
             binding.movie = movie
             binding.root.setOnClickListener{

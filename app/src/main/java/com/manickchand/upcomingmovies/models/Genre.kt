@@ -6,5 +6,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Genre  (
     var id:Int?,
-    var genres:String?
+    var name:String?
 ): Parcelable

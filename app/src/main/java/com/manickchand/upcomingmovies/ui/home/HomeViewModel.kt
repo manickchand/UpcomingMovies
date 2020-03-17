@@ -46,14 +46,4 @@ class HomeViewModel : BaseViewModel() {
             }
         })
     }
-
-//    fun getSliderAnimes(){
-//
-//        animeSliderLiveData.value = listOf(
-//            AnimeSlider(R.drawable.naruto, R.string.naruto),
-//            AnimeSlider(R.drawable.berserk, R.string.berserk),
-//            AnimeSlider(R.drawable.bleach, R.string.bleach),
-//            AnimeSlider(R.drawable.dragonball, R.string.dragonball)
-//        )
-//    }
 }

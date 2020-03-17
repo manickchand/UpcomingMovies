@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.R
 import com.manickchand.upcomingmovies.base.BaseFragment
 import com.manickchand.upcomingmovies.models.Movie
+import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailActivity
 import com.manickchand.upcomingmovies.utils.hasInternet
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -95,10 +96,9 @@ class HomeFragment : BaseFragment() {
             })
 
             adapter = UpcomingAdapter(context, mList){ movie ->
-//                val intent = AnimeDetailActivity.getStartIntent(activity!!, anime.mal_id!!)
-//                activity!!.startActivity(intent)
+                val intent = MovieDetailActivity.getStartIntent(activity!!, movie.id!!)
+                activity!!.startActivity(intent)
             }
-
         }
     }
 
