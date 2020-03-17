@@ -98,6 +98,7 @@
                     app:layout_collapseMode="pin"
                     app:navigationIcon="?homeAsUpIndicator"
                     android:background="@color/transparent"
+                    bind:navigationClick="@{context}"
                     app:title="@{viewModel.movie.title}"
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
 
@@ -147,7 +148,7 @@
                     android:textColor="@color/colorWhite"
                     android:textSize="22sp"
                     android:textStyle="bold"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:layout_below="@+id/tv_movie_release_date"
                     />
 

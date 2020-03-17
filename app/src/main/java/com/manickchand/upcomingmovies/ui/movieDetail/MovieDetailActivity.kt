@@ -7,11 +7,16 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.appcompat.widget.Toolbar
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.manickchand.upcomingmovies.R
 import com.manickchand.upcomingmovies.databinding.ActivityMovieDetailBinding
+import com.manickchand.upcomingmovies.models.Genre
 import kotlinx.android.synthetic.main.activity_movie_detail.*
+
 
 class MovieDetailActivity : AppCompatActivity() {
 
@@ -21,11 +26,7 @@ class MovieDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_detail)
-
         setSupportActionBar(toolbar)
-        toolbar.setNavigationOnClickListener {
-            finish()
-        }
 
         val binding = DataBindingUtil
             .setContentView<ActivityMovieDetailBinding>( this, R.layout.activity_movie_detail )
@@ -54,6 +55,22 @@ class MovieDetailActivity : AppCompatActivity() {
         fun getStartIntent(context: Context, movieId:Int): Intent {
             return Intent(context, MovieDetailActivity::class.java).apply {
                 putExtra(EXTRA_MOVIE_ID, movieId)
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("bind:genres")
+        fun setGenres(textView: AppCompatTextView, genres: List<Genre>? ) {
+            if (genres != null) {
+                textView.text = genres.joinToString { "${it.name}" }
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("bind:navigationClick")
+        fun navigationClick(bar: Toolbar, context: Context ) {
+            bar.setNavigationOnClickListener {
+                (context as AppCompatActivity).finish()
             }
         }
     }

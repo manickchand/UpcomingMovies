@@ -2,7 +2,7 @@ package com.manickchand.upcomingmovies.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.util.*
+import java.util.Date
 
 @Parcelize
 data class Movie  (
