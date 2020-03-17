@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
-import com.manickchand.upcomingmovies.databinding.ItemMovieBinding
 import com.manickchand.upcomingmovies.databinding.ItemSearchBinding
 import com.manickchand.upcomingmovies.models.Movie
 

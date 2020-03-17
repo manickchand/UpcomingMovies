@@ -14,13 +14,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/transparent"
         android:elevation="5dp"
         android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground">
 
        <androidx.constraintlayout.widget.ConstraintLayout
            android:layout_width="match_parent"
-           android:layout_height="match_parent">
+           android:layout_height="match_parent"
+           android:background="@color/transparent"
+           >
 
            <ImageView
                android:id="@+id/iv_movie_search"
@@ -37,16 +40,61 @@
 
            <androidx.appcompat.widget.AppCompatTextView
                android:id="@+id/tv_movie_name"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_margin="8dp"
+               android:text="@{movie.title, default=MOVIE_NAME}"
+               android:textColor="@color/colorWhite"
+               android:textSize="16sp"
+               android:textStyle="bold"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toEndOf="@+id/iv_movie_search"
+               app:layout_constraintTop_toTopOf="parent" />
+
+
+           <ImageView
+               android:id="@+id/iv_star"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="@{movie.title}"
-               android:background="@color/colorWhite"
-               android:textColor="@color/colorPrimary"
-               android:textSize="20sp"
+               android:src="@drawable/ic_star"
                android:layout_margin="8dp"
-               app:layout_constraintStart_toEndOf="@+id/iv_movie_search"
-               app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintStart_toEndOf="@id/iv_movie_search"
+               app:layout_constraintTop_toBottomOf="@id/tv_movie_name"
                />
+
+           <androidx.appcompat.widget.AppCompatTextView
+               android:id="@+id/tv_movie_vote"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_margin="8dp"
+               android:text="@{movie.vote_average.toString(), default=8.5}"
+               android:textColor="@color/colorWhite"
+               android:textSize="18sp"
+               app:layout_constraintStart_toEndOf="@+id/iv_star"
+               app:layout_constraintTop_toBottomOf="@id/tv_movie_name"/>
+
+           <ImageView
+               android:id="@+id/iv_calendar"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/ic_calendar_white_18dp"
+               android:layout_margin="10dp"
+               app:layout_constraintStart_toEndOf="@id/iv_movie_search"
+               app:layout_constraintTop_toBottomOf="@id/iv_star"
+               />
+
+           <androidx.appcompat.widget.AppCompatTextView
+               android:id="@+id/tv_movie_release"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_margin="8dp"
+               android:text="@{@string/format(movie.release_date), default=12_12_12}"
+               android:textColor="@color/colorWhite"
+               android:textSize="16sp"
+               app:layout_constraintStart_toEndOf="@+id/iv_star"
+               app:layout_constraintTop_toBottomOf="@id/tv_movie_vote"/>
+
+
        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

@@ -29,5 +29,11 @@ interface IServiceRetrofit {
                       @Query("language") language:String,
                       @Query("query") query:String,
                       @Query("page") page:Int): Call<Upcoming>
+    
+    @GET("discover/movie")
+    fun getByGenre( @Query("api_key") api_key:String,
+                      @Query("language") language:String,
+                      @Query("with_genres") with_genres:Int,
+                      @Query("page") page:Int): Call<Upcoming>
 
 }

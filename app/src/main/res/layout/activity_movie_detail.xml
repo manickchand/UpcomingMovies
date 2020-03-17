@@ -14,6 +14,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/gradient_background"
         android:fitsSystemWindows="true">
 
         <ProgressBar
@@ -78,7 +79,7 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{viewModel.movie.vote_average.toString()}"
+                            android:text="@{viewModel.movie.vote_average.toString(), default=8.0}"
                             android:background="@color/colorWhite"
                             android:textColor="@color/colorPrimary"
                             android:layout_gravity="center"
@@ -132,7 +133,7 @@
                     android:id="@+id/tv_movie_release_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{@string/format(viewModel.movie.release_date)}"
+                    android:text="@{@string/format(viewModel.movie.release_date), default=12_12_12}"
                     android:textColor="@color/colorWhite"
                     android:textSize="22sp"
                     android:textStyle="bold"

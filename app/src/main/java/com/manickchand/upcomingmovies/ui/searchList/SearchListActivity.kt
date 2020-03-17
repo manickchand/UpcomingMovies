@@ -31,7 +31,15 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_list)
 
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
+
         query = intent.getStringExtra(EXTRA_QUERY)
+
+        title = query
 
         searchListViewModel =
             ViewModelProviders.of(this).get(SearchListViewModel::class.java)
