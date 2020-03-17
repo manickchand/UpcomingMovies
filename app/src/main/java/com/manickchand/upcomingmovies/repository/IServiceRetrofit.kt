@@ -24,4 +24,10 @@ interface IServiceRetrofit {
     fun getAllGenres( @Query("api_key") api_key:String,
                            @Query("language") language:String): Call<GenreList>
 
+    @GET("search/movie")
+    fun searchMovies( @Query("api_key") api_key:String,
+                      @Query("language") language:String,
+                      @Query("query") query:String,
+                      @Query("page") page:Int): Call<Upcoming>
+
 }

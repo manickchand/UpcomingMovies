@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="movie"
+            type="com.manickchand.upcomingmovies.models.Movie" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        android:elevation="5dp"
+        android:layout_margin="8dp"
+        android:foreground="?android:attr/selectableItemBackground">
+
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+           <ImageView
+               android:id="@+id/iv_movie_search"
+               android:layout_width="120dp"
+               android:layout_height="160dp"
+               android:adjustViewBounds="true"
+               android:scaleType="centerCrop"
+               android:src="@drawable/placeholder"
+               app:layout_constraintLeft_toLeftOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintBottom_toBottomOf="parent"
+               bind:picassoLoad="@{movie.poster_path}"
+               />
+
+           <androidx.appcompat.widget.AppCompatTextView
+               android:id="@+id/tv_movie_name"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@{movie.title}"
+               android:background="@color/colorWhite"
+               android:textColor="@color/colorPrimary"
+               android:textSize="20sp"
+               android:layout_margin="8dp"
+               app:layout_constraintStart_toEndOf="@+id/iv_movie_search"
+               app:layout_constraintTop_toTopOf="parent"
+               />
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

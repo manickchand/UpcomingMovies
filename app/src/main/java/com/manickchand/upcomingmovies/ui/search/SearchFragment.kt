@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.R
 import com.manickchand.upcomingmovies.base.BaseFragment
 import com.manickchand.upcomingmovies.models.Genre
+import com.manickchand.upcomingmovies.ui.searchList.SearchListActivity
 import com.manickchand.upcomingmovies.utils.hasInternet
 import kotlinx.android.synthetic.main.fragment_search.*
 
@@ -32,6 +34,8 @@ class SearchFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        searchListener()
 
         with(rv_genres_search){
             layoutManager = GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false)
@@ -62,6 +66,18 @@ class SearchFragment : BaseFragment() {
         })
 
         checkConnection()
+    }
+
+    fun searchListener(){
+        et_search.setOnEditorActionListener{v, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                val intent = SearchListActivity.getStartIntent(activity!!, et_search.text.toString())
+                activity!!.startActivity(intent)
+                true
+            } else {
+                false
+            }
+        }
     }
 
     override fun checkConnection() {

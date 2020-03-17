@@ -26,7 +26,7 @@
                 android:gravity="center"
                 android:hint="@string/search_hint"
                 android:inputType="text"
-                android:imeOptions="actionSend"
+                android:imeOptions="actionSearch"
                 android:padding="12dp"
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="@color/colorWhite"
