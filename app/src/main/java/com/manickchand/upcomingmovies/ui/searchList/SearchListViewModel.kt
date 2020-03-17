@@ -44,4 +44,32 @@ class SearchListViewModel : BaseViewModel() {
             }
         })
     }
+
+    fun getByGenre(id:Int, page:Int){
+
+        loading.value = true
+
+        RetrofitInit.service.getByGenre(TOKEN_API, EN_US, id, page).enqueue(object:
+            Callback<Upcoming> {
+
+            override fun onFailure(call: Call<Upcoming>, t: Throwable) {
+                Log.e(TAG_DEBUC,"[Error getByGenre] "+t.message)
+                hasErrorLiveData.value = true
+                loading.value = false
+            }
+            override fun onResponse(
+                call: Call<Upcoming>,
+                response: Response<Upcoming>
+            ) {
+                loading.value = false
+                if(response.isSuccessful){
+                    hasErrorLiveData.value = false
+                    searchListLiveData.value = Pair( response.body()?.results ?: emptyList(), response.body()?.total_pages ?: 0)
+                }else{
+                    hasErrorLiveData.value = true
+                    Log.e(TAG_DEBUC,"[Response getByGenre Error] code: "+response.code())
+                }
+            }
+        })
+    }
 }

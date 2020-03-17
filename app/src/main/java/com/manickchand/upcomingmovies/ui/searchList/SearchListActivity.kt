@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.R
+import com.manickchand.upcomingmovies.models.Genre
 import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailActivity
 import com.manickchand.upcomingmovies.utils.IConnectionUtils
@@ -38,8 +39,13 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
         }
 
         query = intent.getStringExtra(EXTRA_QUERY)
+        genre = intent.getParcelableExtra(EXTRA_GENRE)
 
-        title = query
+        if(!query.isNullOrEmpty()){
+            title = query
+        }else if(genre!=null){
+            title = genre?.name
+        }
 
         searchListViewModel =
             ViewModelProviders.of(this).get(SearchListViewModel::class.java)
@@ -104,23 +110,28 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
 
     override fun checkConnection() {
         if(hasInternet(this)){
-            searchListViewModel.searchMovies(query, pageLoad)
+            if(!query.isNullOrEmpty()){
+                searchListViewModel.searchMovies(query!!, pageLoad)
+            }else if(genre!=null){
+                searchListViewModel.getByGenre(genre!!.id!!, pageLoad)
+            }
+
         }else{
             Toast.makeText(this, "Connection error !", Toast.LENGTH_SHORT).show()
         }
     }
 
-
     companion object {
         private const val EXTRA_QUERY = "EXTRA_QUERY"
-        private var query = ""
+        private const val EXTRA_GENRE = "EXTRA_GENRE"
+        private var query:String? = null
+        private var genre:Genre? = null
 
-        fun getStartIntent(context: Context, query: String): Intent {
+        fun getStartIntent(context: Context, query: String?, genre:Genre?): Intent {
             return Intent(context, SearchListActivity::class.java).apply {
                 putExtra(EXTRA_QUERY, query)
+                putExtra(EXTRA_GENRE, genre)
             }
         }
     }
-
-
 }
