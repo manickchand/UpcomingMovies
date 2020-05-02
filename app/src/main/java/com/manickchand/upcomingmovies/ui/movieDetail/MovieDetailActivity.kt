@@ -10,16 +10,16 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
 import com.manickchand.upcomingmovies.R
 import com.manickchand.upcomingmovies.databinding.ActivityMovieDetailBinding
 import com.manickchand.upcomingmovies.models.Genre
 import kotlinx.android.synthetic.main.activity_movie_detail.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MovieDetailActivity : AppCompatActivity() {
 
-    private lateinit var movieDetailViewModel: MovieDetailViewModel
+    private val movieDetailViewModel by viewModel<MovieDetailViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +36,6 @@ class MovieDetailActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
-
-        movieDetailViewModel = ViewModelProviders.of(this).get(MovieDetailViewModel::class.java)
 
         binding.viewModel = movieDetailViewModel
 

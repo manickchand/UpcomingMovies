@@ -17,10 +17,11 @@ import com.manickchand.upcomingmovies.utils.IConnectionUtils
 import com.manickchand.upcomingmovies.utils.hasInternet
 import com.manickchand.upcomingmovies.utils.showToast
 import kotlinx.android.synthetic.main.activity_search_list.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchListActivity : AppCompatActivity(), IConnectionUtils {
 
-    private lateinit var searchListViewModel: SearchListViewModel
+    private val searchListViewModel by viewModel<SearchListViewModel>() 
     private var mList:MutableList<Movie> = ArrayList()
     private var pastVisiblesItems = 0
     private var totalItemCount = 0
@@ -49,9 +50,7 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
 
         setupRecyclerView()
 
-        searchListViewModel =
-            ViewModelProviders.of(this).get(SearchListViewModel::class.java)
-
+       
         searchListViewModel.searchListLiveData.observe(this, Observer {
             it?.let { pair ->
                 mList.addAll(pair.first!!)

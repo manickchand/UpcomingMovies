@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.R
@@ -16,10 +15,11 @@ import com.manickchand.upcomingmovies.ui.searchList.SearchListActivity
 import com.manickchand.upcomingmovies.utils.hasInternet
 import com.manickchand.upcomingmovies.utils.showToast
 import kotlinx.android.synthetic.main.fragment_search.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : BaseFragment() {
 
-    private lateinit var searchViewModel: SearchViewModel
+    private val searchViewModel by viewModel<SearchViewModel>()
     private var mList:MutableList<Genre> = ArrayList()
 
     override fun onCreateView(
@@ -27,9 +27,6 @@ class SearchFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        searchViewModel =
-            ViewModelProviders.of(this).get(SearchViewModel::class.java)
-
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
@@ -47,18 +44,18 @@ class SearchFragment : BaseFragment() {
             }
         }
 
-        searchViewModel.genreListLiveData.observe(this, Observer {
+        searchViewModel.genreListLiveData.observe(viewLifecycleOwner, Observer {
             it?.let { list ->
                 mList.addAll(list)
                 rv_genres_search.adapter!!.notifyDataSetChanged()
             }
         })
 
-        searchViewModel.hasErrorLiveData.observe(this, Observer {error ->
+        searchViewModel.hasErrorLiveData.observe(viewLifecycleOwner, Observer {error ->
             if (error) showToast("Error get genre list !")
         })
 
-        searchViewModel.loading.observe(this, Observer { load ->
+        searchViewModel.loading.observe(viewLifecycleOwner, Observer { load ->
             swiperefresh_genres.isRefreshing = load
         })
 

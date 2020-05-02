@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,10 +15,12 @@ import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailActivity
 import com.manickchand.upcomingmovies.utils.hasInternet
 import com.manickchand.upcomingmovies.utils.showToast
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class HomeFragment : BaseFragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel by viewModel<HomeViewModel>()
     private var mList:MutableList<Movie> = ArrayList()
     private var pastVisiblesItems = 0
     private var totalItemCount = 0
@@ -32,9 +33,6 @@ class HomeFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProviders.of(this).get(HomeViewModel::class.java)
-
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -42,7 +40,7 @@ class HomeFragment : BaseFragment() {
 
         setupRecyclerView()
 
-        homeViewModel.moviesLiveData.observe(this, Observer {
+        homeViewModel.moviesLiveData.observe(viewLifecycleOwner, Observer {
             it?.let { pair ->
                 mList.addAll(pair.first!!)
                 totalPages = pair.second
@@ -51,7 +49,7 @@ class HomeFragment : BaseFragment() {
             }
         })
 
-        homeViewModel.hasErrorLiveData.observe(this, Observer {error ->
+        homeViewModel.hasErrorLiveData.observe(viewLifecycleOwner, Observer {error ->
             if (error) showToast("Error get upcomming list !")
         })
 
@@ -60,7 +58,7 @@ class HomeFragment : BaseFragment() {
             this.checkConnection()
         }
 
-        homeViewModel.loading.observe(this, Observer { load ->
+        homeViewModel.loading.observe(viewLifecycleOwner, Observer { load ->
             swiperefresh.isRefreshing = load
         })
 
