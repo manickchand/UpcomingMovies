@@ -1,13 +1,11 @@
 package com.manickchand.upcomingmovies.ui.search
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Genre
 import com.manickchand.upcomingmovies.models.GenreList
-import com.manickchand.upcomingmovies.repository.RetrofitInit
+import com.manickchand.upcomingmovies.repository.IServiceRetrofit
 import com.manickchand.upcomingmovies.utils.EN_US
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import com.manickchand.upcomingmovies.utils.TOKEN_API
@@ -15,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchViewModel : BaseViewModel() {
+class SearchViewModel(private val service: IServiceRetrofit) : BaseViewModel() {
 
     val genreListLiveData = MutableLiveData< List<Genre> >()
 
@@ -23,7 +21,7 @@ class SearchViewModel : BaseViewModel() {
 
         loading.value = true
 
-        RetrofitInit.service.getAllGenres(TOKEN_API, EN_US).enqueue(object:
+        service.getAllGenres(TOKEN_API, EN_US).enqueue(object:
             Callback<GenreList> {
 
             override fun onFailure(call: Call<GenreList>, t: Throwable) {

@@ -7,7 +7,7 @@ import androidx.lifecycle.Transformations
 import com.manickchand.upcomingmovies.BaseApp
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
-import com.manickchand.upcomingmovies.repository.RetrofitInit
+import com.manickchand.upcomingmovies.repository.IServiceRetrofit
 import com.manickchand.upcomingmovies.utils.EN_US
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import com.manickchand.upcomingmovies.utils.TOKEN_API
@@ -15,7 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieDetailViewModel : BaseViewModel(){
+class MovieDetailViewModel(private val service: IServiceRetrofit) : BaseViewModel(){
 
     val _movieDetailLiveData = MutableLiveData<Movie>()
     val movie: LiveData<Movie> = Transformations.map(_movieDetailLiveData) { it }
@@ -25,7 +25,7 @@ class MovieDetailViewModel : BaseViewModel(){
 
         loading.value = true
 
-        RetrofitInit.service.getMovieDetail( movie_id, TOKEN_API, EN_US).enqueue(object:
+        service.getMovieDetail( movie_id, TOKEN_API, EN_US).enqueue(object:
             Callback<Movie> {
 
             override fun onFailure(call: Call<Movie>, t: Throwable) {

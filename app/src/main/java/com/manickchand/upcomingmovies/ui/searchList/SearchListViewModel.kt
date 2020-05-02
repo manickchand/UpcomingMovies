@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.models.Upcoming
-import com.manickchand.upcomingmovies.repository.RetrofitInit
+import com.manickchand.upcomingmovies.repository.IServiceRetrofit
 import com.manickchand.upcomingmovies.utils.EN_US
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import com.manickchand.upcomingmovies.utils.TOKEN_API
@@ -13,7 +13,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchListViewModel : BaseViewModel() {
+class SearchListViewModel(private val service: IServiceRetrofit) : BaseViewModel() {
 
     val searchListLiveData = MutableLiveData< Pair< List<Movie>?, Int> >()
 
@@ -21,7 +21,7 @@ class SearchListViewModel : BaseViewModel() {
 
         loading.value = true
 
-        RetrofitInit.service.searchMovies(TOKEN_API, EN_US, query, page).enqueue(object:
+        service.searchMovies(TOKEN_API, EN_US, query, page).enqueue(object:
             Callback<Upcoming> {
 
             override fun onFailure(call: Call<Upcoming>, t: Throwable) {
@@ -49,7 +49,7 @@ class SearchListViewModel : BaseViewModel() {
 
         loading.value = true
 
-        RetrofitInit.service.getByGenre(TOKEN_API, EN_US, id, page).enqueue(object:
+        service.getByGenre(TOKEN_API, EN_US, id, page).enqueue(object:
             Callback<Upcoming> {
 
             override fun onFailure(call: Call<Upcoming>, t: Throwable) {

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.R
@@ -50,7 +49,7 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
 
         setupRecyclerView()
 
-       
+
         searchListViewModel.searchListLiveData.observe(this, Observer {
             it?.let { pair ->
                 mList.addAll(pair.first!!)

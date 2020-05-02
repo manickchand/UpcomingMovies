@@ -6,7 +6,7 @@ import com.manickchand.upcomingmovies.BaseApp
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.models.Upcoming
-import com.manickchand.upcomingmovies.repository.RetrofitInit
+import com.manickchand.upcomingmovies.repository.IServiceRetrofit
 import com.manickchand.upcomingmovies.utils.EN_US
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import com.manickchand.upcomingmovies.utils.TOKEN_API
@@ -14,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeViewModel : BaseViewModel() {
+class HomeViewModel(private val service: IServiceRetrofit) : BaseViewModel() {
 
     val moviesLiveData = MutableLiveData< Pair< List<Movie>?, Int> >()
 
@@ -22,7 +22,7 @@ class HomeViewModel : BaseViewModel() {
 
         loading.value = true
 
-        RetrofitInit.service.getUpcomingList(TOKEN_API, EN_US , page).enqueue(object:
+        service.getUpcomingList(TOKEN_API, EN_US , page).enqueue(object:
             Callback<Upcoming> {
 
             override fun onFailure(call: Call<Upcoming>, t: Throwable) {
