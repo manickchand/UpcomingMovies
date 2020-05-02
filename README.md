@@ -35,9 +35,11 @@
 - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 - [Navigation](https://developer.android.com/topic/libraries/architecture/navigation)
 - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
-- [Retrofit](https://square.github.io/retrofit/)
+- [Retrofit2](https://square.github.io/retrofit/)
 - [Room](https://developer.android.com/topic/libraries/architecture/room)
 - [Databinding](https://developer.android.com/topic/libraries/data-binding)
+- [Koin](https://insert-koin.io/)
+- [Coroutines](https://developer.android.com/kotlin/coroutines)
 
 ## API
 
