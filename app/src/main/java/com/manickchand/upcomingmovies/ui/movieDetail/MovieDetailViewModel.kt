@@ -11,41 +11,56 @@ import com.manickchand.upcomingmovies.repository.MovieDAO
 import com.manickchand.upcomingmovies.utils.EN_US
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import com.manickchand.upcomingmovies.utils.TOKEN_API
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MovieDetailViewModel(private val service: IServiceRetrofit, private val database: MovieDAO) : BaseViewModel(){
 
-    val _movieDetailLiveData = MutableLiveData<Movie>()
+    private val _movieDetailLiveData = MutableLiveData<Movie>()
     val movie: LiveData<Movie> = Transformations.map(_movieDetailLiveData) { it }
     val load: LiveData<Boolean> = Transformations.map(loading) { it }
 
     fun getMovieDetail(movie_id:Int){
 
-        loading.value = true
+        launch {
+            loading.value = true
 
-        service.getMovieDetail( movie_id, TOKEN_API, EN_US).enqueue(object:
-            Callback<Movie> {
+            try {
+                val result = service.getMovieDetail( movie_id, TOKEN_API, EN_US)
+                _movieDetailLiveData.value = result ?: null
+                hasErrorLiveData.value = false
 
-            override fun onFailure(call: Call<Movie>, t: Throwable) {
-                Log.e(TAG_DEBUC,"[Error getMovieDetail] "+t.message)
-                _movieDetailLiveData.value = database.findById(movie_id)
+            }catch (t:Throwable){
+                hasErrorLiveData.value = true
+                Log.i(TAG_DEBUC, "[error] getMovieDetail: ${t.message}")
+
+            }finally {
                 loading.value = false
             }
-            override fun onResponse(
-                call: Call<Movie>,
-                response: Response<Movie>
-            ) {
-                loading.value = false
-                if(response.isSuccessful){
-                    _movieDetailLiveData.value = response.body() ?: null
-                    database.insertAll(_movieDetailLiveData.value!!)
 
-                }else{
-                    Log.e(TAG_DEBUC,"[Response getMovieDetail Error] code: "+response.code())
+        }
+    }
+
+    fun insertMovie(movie:Movie){
+        launch {
+            withContext(IO) {
+                database.insertAll(movie)
+            }
+        }
+    }
+
+    fun getMovie(movie_id:Int){
+        launch {
+            var movie:Movie? = null
+            withContext(IO) {
+                try {
+                    movie = database.findById(movie_id)
+                }catch (t:Throwable){
+                    Log.i(TAG_DEBUC, "[error] getMovie: ${t.message}")
                 }
             }
-        })
+            _movieDetailLiveData.value = movie
+        }
     }
 }

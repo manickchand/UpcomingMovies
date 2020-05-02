@@ -12,9 +12,7 @@ val databaseModule = module {
             androidApplication(),
             AppDatabase::class.java,
             DB_NAME
-        )
-            .allowMainThreadQueries()
-            .build()
+        ).build()
     }
 
     single {
