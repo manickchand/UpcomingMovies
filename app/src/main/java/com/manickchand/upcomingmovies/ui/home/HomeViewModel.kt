@@ -2,11 +2,11 @@ package com.manickchand.upcomingmovies.ui.home
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.manickchand.upcomingmovies.BaseApp
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.models.Upcoming
 import com.manickchand.upcomingmovies.repository.IServiceRetrofit
+import com.manickchand.upcomingmovies.repository.MovieDAO
 import com.manickchand.upcomingmovies.utils.EN_US
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import com.manickchand.upcomingmovies.utils.TOKEN_API
@@ -14,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeViewModel(private val service: IServiceRetrofit) : BaseViewModel() {
+class HomeViewModel(private val service: IServiceRetrofit, private val database: MovieDAO) : BaseViewModel() {
 
     val moviesLiveData = MutableLiveData< Pair< List<Movie>?, Int> >()
 
@@ -48,6 +48,6 @@ class HomeViewModel(private val service: IServiceRetrofit) : BaseViewModel() {
     }
 
     fun getByDb(){
-        moviesLiveData.value = Pair( BaseApp.getDB().movieDAO().getAll() , 1)
+        moviesLiveData.value = Pair( database.getAll() , 1)
     }
 }

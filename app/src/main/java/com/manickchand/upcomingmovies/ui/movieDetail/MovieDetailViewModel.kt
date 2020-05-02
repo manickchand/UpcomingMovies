@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.manickchand.upcomingmovies.BaseApp
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.repository.IServiceRetrofit
+import com.manickchand.upcomingmovies.repository.MovieDAO
 import com.manickchand.upcomingmovies.utils.EN_US
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import com.manickchand.upcomingmovies.utils.TOKEN_API
@@ -15,7 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieDetailViewModel(private val service: IServiceRetrofit) : BaseViewModel(){
+class MovieDetailViewModel(private val service: IServiceRetrofit, private val database: MovieDAO) : BaseViewModel(){
 
     val _movieDetailLiveData = MutableLiveData<Movie>()
     val movie: LiveData<Movie> = Transformations.map(_movieDetailLiveData) { it }
@@ -30,7 +30,7 @@ class MovieDetailViewModel(private val service: IServiceRetrofit) : BaseViewMode
 
             override fun onFailure(call: Call<Movie>, t: Throwable) {
                 Log.e(TAG_DEBUC,"[Error getMovieDetail] "+t.message)
-                _movieDetailLiveData.value = BaseApp.getDB().movieDAO().findById(movie_id)
+                _movieDetailLiveData.value = database.findById(movie_id)
                 loading.value = false
             }
             override fun onResponse(
@@ -40,7 +40,7 @@ class MovieDetailViewModel(private val service: IServiceRetrofit) : BaseViewMode
                 loading.value = false
                 if(response.isSuccessful){
                     _movieDetailLiveData.value = response.body() ?: null
-                    BaseApp.getDB().movieDAO().insertAll(_movieDetailLiveData.value!!)
+                    database.insertAll(_movieDetailLiveData.value!!)
 
                 }else{
                     Log.e(TAG_DEBUC,"[Response getMovieDetail Error] code: "+response.code())
