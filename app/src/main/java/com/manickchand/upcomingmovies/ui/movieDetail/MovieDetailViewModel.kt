@@ -8,9 +8,7 @@ import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.repository.IServiceRetrofit
 import com.manickchand.upcomingmovies.repository.MovieDAO
-import com.manickchand.upcomingmovies.utils.EN_US
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
-import com.manickchand.upcomingmovies.utils.TOKEN_API
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,7 +25,7 @@ class MovieDetailViewModel(private val service: IServiceRetrofit, private val da
             loading.value = true
 
             try {
-                val result = service.getMovieDetail( movie_id, TOKEN_API, EN_US)
+                val result = service.getMovieDetail( movie_id )
                 _movieDetailLiveData.value = result ?: null
                 hasErrorLiveData.value = false
 

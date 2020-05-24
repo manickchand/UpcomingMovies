@@ -4,6 +4,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.manickchand.upcomingmovies.R
 import com.squareup.picasso.Picasso
+import com.manickchand.upcomingmovies.BuildConfig
 
 class ImageUtils {
 
@@ -14,7 +15,7 @@ class ImageUtils {
         fun loadImageView2(image: ImageView, imageUrl: String?) {
             if(imageUrl.isNullOrEmpty().not()){
 
-                val url = IMAGE_URL + imageUrl
+                val url = BuildConfig.IMAGE_URL + imageUrl
 
                 Picasso.get().load(url)
                     .placeholder(R.drawable.placeholder)

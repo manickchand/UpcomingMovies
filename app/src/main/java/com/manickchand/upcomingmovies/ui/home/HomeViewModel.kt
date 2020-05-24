@@ -6,9 +6,7 @@ import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.repository.IServiceRetrofit
 import com.manickchand.upcomingmovies.repository.MovieDAO
-import com.manickchand.upcomingmovies.utils.EN_US
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
-import com.manickchand.upcomingmovies.utils.TOKEN_API
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,7 +22,7 @@ class HomeViewModel(private val service: IServiceRetrofit, private val database:
             loading.value = true
 
             try {
-                val results = service.getUpcomingList(TOKEN_API, EN_US , page)
+                val results = service.getUpcomingList( page )
                 hasErrorLiveData.value = false
                 moviesLiveData.value = Pair(results.results ?: emptyList() , results.total_pages ?: 0)
             }catch (t:Throwable){

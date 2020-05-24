@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Genre
 import com.manickchand.upcomingmovies.repository.IServiceRetrofit
-import com.manickchand.upcomingmovies.utils.EN_US
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
-import com.manickchand.upcomingmovies.utils.TOKEN_API
 import kotlinx.coroutines.launch
 
 class SearchViewModel(private val service: IServiceRetrofit) : BaseViewModel() {
@@ -20,7 +18,7 @@ class SearchViewModel(private val service: IServiceRetrofit) : BaseViewModel() {
             loading.value = true
 
             try {
-                val response = service.getAllGenres(TOKEN_API, EN_US)
+                val response = service.getAllGenres()
                 hasErrorLiveData.value = false
                 genreListLiveData.value = response.genres ?: emptyList()
             }catch (t:Throwable){
