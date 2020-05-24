@@ -4,14 +4,13 @@ import android.util.Log.i
 import androidx.lifecycle.MutableLiveData
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
-import com.manickchand.upcomingmovies.repository.IServiceRetrofit
-import com.manickchand.upcomingmovies.repository.MovieDAO
+import com.manickchand.upcomingmovies.repository.UpcomingMoviesRepository
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class HomeViewModel(private val service: IServiceRetrofit, private val database: MovieDAO) : BaseViewModel() {
+class HomeViewModel(private val upcomingMoviesRepository: UpcomingMoviesRepository) : BaseViewModel() {
 
     val moviesLiveData = MutableLiveData< Pair< List<Movie>?, Int> >()
 
@@ -22,9 +21,8 @@ class HomeViewModel(private val service: IServiceRetrofit, private val database:
             loading.value = true
 
             try {
-                val results = service.getUpcomingList( page )
                 hasErrorLiveData.value = false
-                moviesLiveData.value = Pair(results.results ?: emptyList() , results.total_pages ?: 0)
+                moviesLiveData.value = upcomingMoviesRepository.getUpcomingList(page)
             }catch (t:Throwable){
                 hasErrorLiveData.value = true
                 i(TAG_DEBUC, "[error] getUpcomingList: ${t.message}")
@@ -37,15 +35,9 @@ class HomeViewModel(private val service: IServiceRetrofit, private val database:
 
      fun getByDb(){
         launch {
-            var list:List<Movie> = emptyList()
-            withContext(IO) {
-                try {
-                    list =database.getAll()
-                }catch (t:Throwable){
-                    i(TAG_DEBUC, "[error] getByDb: ${t.message}")
-                }
+             withContext(IO) {
+                 moviesLiveData.postValue(upcomingMoviesRepository.getAllFromDB())
             }
-            moviesLiveData.value = Pair(list , 1)
         }
     }
 }

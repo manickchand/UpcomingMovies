@@ -12,7 +12,7 @@ import com.manickchand.upcomingmovies.models.Movie
 
 class SearchListAdapter(context: Context,
                         list: List<Movie>,
-                        val onItemClickListener:((movie:Movie) -> Unit) ) : RecyclerView.Adapter<SearchListAdapter.MyViewHolder?>() {
+                        private val onItemClickListener:((movie:Movie) -> Unit) ) : RecyclerView.Adapter<SearchListAdapter.MyViewHolder?>() {
 
     private var mContext =context
     private var mList = list

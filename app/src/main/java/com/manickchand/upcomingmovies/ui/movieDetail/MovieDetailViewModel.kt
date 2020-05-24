@@ -6,14 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
-import com.manickchand.upcomingmovies.repository.IServiceRetrofit
-import com.manickchand.upcomingmovies.repository.MovieDAO
+import com.manickchand.upcomingmovies.repository.UpcomingMoviesRepository
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MovieDetailViewModel(private val service: IServiceRetrofit, private val database: MovieDAO) : BaseViewModel(){
+class MovieDetailViewModel(private val upcomingMoviesRepository: UpcomingMoviesRepository) : BaseViewModel(){
 
     private val _movieDetailLiveData = MutableLiveData<Movie>()
     val movie: LiveData<Movie> = Transformations.map(_movieDetailLiveData) { it }
@@ -25,8 +24,8 @@ class MovieDetailViewModel(private val service: IServiceRetrofit, private val da
             loading.value = true
 
             try {
-                val result = service.getMovieDetail( movie_id )
-                _movieDetailLiveData.value = result ?: null
+
+                _movieDetailLiveData.value = upcomingMoviesRepository.getMovieDetail( movie_id )
                 hasErrorLiveData.value = false
 
             }catch (t:Throwable){
@@ -43,22 +42,21 @@ class MovieDetailViewModel(private val service: IServiceRetrofit, private val da
     fun insertMovie(movie:Movie){
         launch {
             withContext(IO) {
-                database.insertAll(movie)
+                upcomingMoviesRepository.insertMovieInDB(movie)
             }
         }
     }
 
     fun getMovie(movie_id:Int){
         launch {
-            var movie:Movie? = null
             withContext(IO) {
                 try {
-                    movie = database.findById(movie_id)
+                    _movieDetailLiveData.postValue(upcomingMoviesRepository.getMovieByIdDB(movie_id))
                 }catch (t:Throwable){
                     Log.i(TAG_DEBUC, "[error] getMovie: ${t.message}")
                 }
             }
-            _movieDetailLiveData.value = movie
         }
     }
+
 }

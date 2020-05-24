@@ -71,7 +71,7 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
         checkConnection()
     }
 
-    fun setupRecyclerView(){
+    private fun setupRecyclerView(){
 
         with(rv_search_movies){
 
@@ -100,7 +100,7 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
             })
 
             adapter = SearchListAdapter(context, mList){ movie ->
-                val intent = MovieDetailActivity.getStartIntent(this@SearchListActivity, movie.id!!)
+                val intent = MovieDetailActivity.getStartIntent(this@SearchListActivity, movie.id)
                 startActivity(intent)
             }
         }

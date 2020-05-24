@@ -68,7 +68,7 @@ class SearchFragment : BaseFragment() {
     }
 
     private fun searchListener(){
-        et_search.setOnEditorActionListener{v, actionId, event ->
+        et_search.setOnEditorActionListener{ _, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_SEARCH){
                 val str = et_search.text.toString()
                 if(str.isNotEmpty()) {

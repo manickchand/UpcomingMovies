@@ -94,7 +94,7 @@ class HomeFragment : BaseFragment() {
             })
 
             adapter = UpcomingAdapter(context, mList){ movie ->
-                val intent = MovieDetailActivity.getStartIntent(activity!!, movie.id!!)
+                val intent = MovieDetailActivity.getStartIntent(activity!!, movie.id)
                 activity!!.startActivity(intent)
             }
         }

@@ -4,11 +4,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.models.Movie
-import com.manickchand.upcomingmovies.repository.IServiceRetrofit
+import com.manickchand.upcomingmovies.repository.UpcomingMoviesRepository
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import kotlinx.coroutines.launch
 
-class SearchListViewModel(private val service: IServiceRetrofit) : BaseViewModel() {
+class SearchListViewModel(private val upcomingMoviesRepository: UpcomingMoviesRepository) : BaseViewModel() {
 
     val searchListLiveData = MutableLiveData< Pair< List<Movie>?, Int> >()
 
@@ -18,9 +18,8 @@ class SearchListViewModel(private val service: IServiceRetrofit) : BaseViewModel
             loading.value = true
 
             try {
-                val response = service.searchMovies( query, page )
                 hasErrorLiveData.value = false
-                searchListLiveData.value = Pair( response.results ?: emptyList(), response.total_pages ?: 0)
+                searchListLiveData.value = upcomingMoviesRepository.searchMovies(query, page)
             }catch (t:Throwable){
                 hasErrorLiveData.value = true
                 Log.e(TAG_DEBUC,"[Error searchMovies] "+t.message)
@@ -37,9 +36,8 @@ class SearchListViewModel(private val service: IServiceRetrofit) : BaseViewModel
             loading.value = true
 
             try {
-                val response = service.getByGenre( id, page )
                 hasErrorLiveData.value = false
-                searchListLiveData.value = Pair( response.results ?: emptyList(), response.total_pages ?: 0)
+                searchListLiveData.value =  upcomingMoviesRepository.getByGenre(id, page)
             }catch (t:Throwable){
                 hasErrorLiveData.value = true
                 Log.e(TAG_DEBUC,"[Error searchMovies] "+t.message)
