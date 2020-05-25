@@ -1,7 +1,6 @@
 package com.manickchand.upcomingmovies.details
 
 import android.os.Build
-import com.manickchand.upcomingmovies.models.Movie
 import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailActivity
 import org.junit.Assert
 import org.junit.Before
@@ -16,33 +15,6 @@ import org.robolectric.annotation.Config
 class MovieDetailActivityTest{
 
     private lateinit var activity: MovieDetailActivity
-
-    private val movie1 = Movie(0,
-        "path",
-        "path",
-        "Movie 1",
-        "Movie 1",
-        1.0,
-        "Hello word",
-        1,
-        null,
-        1.0,
-        emptyList()
-    )
-
-    private val movie2 = Movie(0,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-    )
-
 
     @Before
     fun setUp() {
