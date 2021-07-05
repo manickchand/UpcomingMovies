@@ -13,7 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.manickchand.upcomingmovies.R
 import com.manickchand.upcomingmovies.databinding.ActivityMovieDetailBinding
-import com.manickchand.upcomingmovies.models.Genre
+import com.manickchand.upcomingmovies.data.models.Genre
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

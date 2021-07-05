@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.R
 import com.manickchand.upcomingmovies.base.BaseFragment
-import com.manickchand.upcomingmovies.models.Genre
+import com.manickchand.upcomingmovies.data.models.Genre
 import com.manickchand.upcomingmovies.ui.searchList.SearchListActivity
 import com.manickchand.upcomingmovies.utils.hasInternet
 import com.manickchand.upcomingmovies.utils.showToast

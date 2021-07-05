@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.manickchand.upcomingmovies.base.BaseViewModel
-import com.manickchand.upcomingmovies.models.Movie
-import com.manickchand.upcomingmovies.repository.UpcomingMoviesRepository
+import com.manickchand.upcomingmovies.data.models.Movie
+import com.manickchand.upcomingmovies.data.repository.UpcomingMoviesRepository
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch

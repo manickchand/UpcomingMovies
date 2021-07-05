@@ -1,4 +1,4 @@
-package com.manickchand.upcomingmovies.models
+package com.manickchand.upcomingmovies.data.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

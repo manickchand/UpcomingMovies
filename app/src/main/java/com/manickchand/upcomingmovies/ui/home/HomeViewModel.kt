@@ -3,8 +3,8 @@ package com.manickchand.upcomingmovies.ui.home
 import android.util.Log.i
 import androidx.lifecycle.MutableLiveData
 import com.manickchand.upcomingmovies.base.BaseViewModel
-import com.manickchand.upcomingmovies.models.Movie
-import com.manickchand.upcomingmovies.repository.UpcomingMoviesRepository
+import com.manickchand.upcomingmovies.data.models.Movie
+import com.manickchand.upcomingmovies.data.repository.UpcomingMoviesRepository
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch

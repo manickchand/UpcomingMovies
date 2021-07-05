@@ -1,10 +1,10 @@
-package com.manickchand.upcomingmovies.repository
+package com.manickchand.upcomingmovies.data.repository
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.manickchand.upcomingmovies.models.Movie
+import com.manickchand.upcomingmovies.data.models.Movie
 
 @Dao
 interface MovieDAO {

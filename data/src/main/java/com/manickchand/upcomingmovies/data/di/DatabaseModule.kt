@@ -1,8 +1,7 @@
-package com.manickchand.upcomingmovies.di
+package com.manickchand.upcomingmovies.data.di
 
 import androidx.room.Room
-import com.manickchand.upcomingmovies.repository.AppDatabase
-import com.manickchand.upcomingmovies.utils.DB_NAME
+import com.manickchand.upcomingmovies.data.repository.AppDatabase
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
@@ -11,7 +10,7 @@ val databaseModule = module {
         Room.databaseBuilder(
             androidApplication(),
             AppDatabase::class.java,
-            DB_NAME
+            "MOVIES"
         ).build()
     }
 

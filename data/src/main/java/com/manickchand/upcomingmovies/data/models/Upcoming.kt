@@ -1,4 +1,4 @@
-package com.manickchand.upcomingmovies.models
+package com.manickchand.upcomingmovies.data.models
 
 data class Upcoming  (
     var total_results:Int?,

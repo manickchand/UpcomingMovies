@@ -1,7 +1,7 @@
-package com.manickchand.upcomingmovies.repository
+package com.manickchand.upcomingmovies.data.repository
 
-import com.manickchand.upcomingmovies.models.Genre
-import com.manickchand.upcomingmovies.models.Movie
+import com.manickchand.upcomingmovies.data.models.Genre
+import com.manickchand.upcomingmovies.data.models.Movie
 
 interface UpcomingMoviesRepository {
 
