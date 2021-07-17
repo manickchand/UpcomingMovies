@@ -4,19 +4,18 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion ANDROID_SDK_VERSION
     buildToolsVersion "30.0.2"
     defaultConfig {
         applicationId "com.manickchand.upcomingmovies"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion MIN_SDK_VERSION
+        targetSdkVersion ANDROID_SDK_VERSION
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField 'String', 'BASE_URL', '"https://api.themoviedb.org/3/"'
-        buildConfigField 'String', 'TOKEN_API', '"c5850ed73901b8d268d0898a8a9d8bff"'
+
         buildConfigField 'String', 'IMAGE_URL', '"https://image.tmdb.org/t/p/w500"'
-        buildConfigField 'String', 'EN_US', '"en-US"'
+
     }
     buildTypes {
         release {
