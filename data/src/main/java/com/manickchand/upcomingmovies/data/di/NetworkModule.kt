@@ -1,7 +1,7 @@
 package com.manickchand.upcomingmovies.data.di
 
 import com.manickchand.upcomingmovies.data.BuildConfig
-import com.manickchand.upcomingmovies.data.repository.IServiceRetrofit
+import com.manickchand.upcomingmovies.data.remote.IServiceRetrofit
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response

@@ -1,4 +1,4 @@
-package com.manickchand.upcomingmovies.data.repository
+package com.manickchand.upcomingmovies.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert

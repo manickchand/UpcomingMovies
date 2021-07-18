@@ -18,7 +18,7 @@ import com.manickchand.upcomingmovies.utils.showToast
 import kotlinx.android.synthetic.main.activity_search_list.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchListActivity : AppCompatActivity(), IConnectionUtils {
+class SearchListActivity : AppCompatActivity() {
 
     private val searchListViewModel by viewModel<SearchListViewModel>() 
     private var mList:MutableList<Movie> = ArrayList()
@@ -82,7 +82,7 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
             else pb_search_movie.visibility = View.GONE
         })
 
-        checkConnection()
+        executeIfConnection()
     }
 
     private fun setupRecyclerView(){
@@ -106,7 +106,7 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
 
                                 loading = true
                                 pageLoad ++
-                                checkConnection()
+                                executeIfConnection()
                             }
                         }
                     }
@@ -120,7 +120,8 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
         }
     }
 
-    override fun checkConnection() {
+    //todo refactor
+    fun executeIfConnection() {
         if(hasInternet(this)){
             if(!query.isNullOrEmpty()){
                 searchListViewModel.searchMovies(query!!, pageLoad)

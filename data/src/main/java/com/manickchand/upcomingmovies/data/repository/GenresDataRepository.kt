@@ -1,5 +1,6 @@
 package com.manickchand.upcomingmovies.data.repository
 
+import com.manickchand.upcomingmovies.data.remote.IServiceRetrofit
 import com.manickchand.upcomingmovies.domain.models.Genre
 import com.manickchand.upcomingmovies.domain.models.Movie
 import com.manickchand.upcomingmovies.domain.repository.GenresRepository

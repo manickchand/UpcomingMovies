@@ -12,11 +12,9 @@ import com.manickchand.upcomingmovies.R
 import com.manickchand.upcomingmovies.base.BaseFragment
 import com.manickchand.upcomingmovies.domain.models.Movie
 import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailActivity
-import com.manickchand.upcomingmovies.utils.hasInternet
 import com.manickchand.upcomingmovies.utils.showToast
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class HomeFragment : BaseFragment() {
 
@@ -32,9 +30,7 @@ class HomeFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
+    ) = inflater.inflate(R.layout.fragment_home, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -55,14 +51,14 @@ class HomeFragment : BaseFragment() {
 
         swiperefresh.setColorSchemeResources(R.color.colorBlack)
         swiperefresh.setOnRefreshListener{
-            this.checkConnection()
+            fetchUpcoming()
         }
 
         homeViewModel.loading.observe(viewLifecycleOwner, Observer { load ->
             swiperefresh.isRefreshing = load
         })
 
-        checkConnection()
+        fetchUpcoming()
     }
 
     private fun setupRecyclerView(){
@@ -86,7 +82,7 @@ class HomeFragment : BaseFragment() {
 
                                 loading = true
                                 pageLoad ++
-                                checkConnection()
+                                fetchUpcoming()
                             }
                         }
                     }
@@ -100,12 +96,9 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    override fun checkConnection(){
-        if(hasInternet(activity)){
+    fun fetchUpcoming(){
+        executeIfConnection {
             homeViewModel.getUpcomingList(pageLoad)
-        }else{
-            homeViewModel.getByDb()
-            showToast("Connection error !")
-       }
+        }
     }
 }

@@ -61,10 +61,10 @@ class SearchFragment : BaseFragment() {
 
         swiperefresh_genres.setColorSchemeResources(R.color.colorBlack)
         swiperefresh_genres.setOnRefreshListener{
-            this.checkConnection()
+            fetchGenres()
         }
 
-        checkConnection()
+        fetchGenres()
     }
 
     private fun searchListener(){
@@ -84,11 +84,9 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    override fun checkConnection() {
-        if(hasInternet(activity)){
+    private fun fetchGenres(){
+        executeIfConnection {
             searchViewModel.getAllGenres()
-        }else{
-            showToast("Connection error !")
         }
     }
 
