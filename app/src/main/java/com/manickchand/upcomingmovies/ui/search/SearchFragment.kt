@@ -52,7 +52,7 @@ class SearchFragment : BaseFragment() {
         })
 
         searchViewModel.hasErrorLiveData.observe(viewLifecycleOwner, Observer {error ->
-            if (error) showToast("Error get genre list !")
+            if (error) requireContext().showToast(R.string.request_error)
         })
 
         searchViewModel.loading.observe(viewLifecycleOwner, Observer { load ->
@@ -75,7 +75,7 @@ class SearchFragment : BaseFragment() {
                     val intent = SearchListActivity.getStartIntent(requireContext(), str, null)
                     requireActivity().startActivity(intent)
                 }else{
-                    showToast("fill in the field")
+                    requireContext().showToast(R.string.request_error)
                 }
                 true
             } else {

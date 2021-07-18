@@ -7,4 +7,5 @@
     <string name="format">%1$td/%1$tm/%1$tY</string>
     <string name="search_hint">Search Movies</string>
     <string name="connection_error">Connection error!</string>
+    <string name="request_error">Error!</string>
 </resources>

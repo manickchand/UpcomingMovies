@@ -74,7 +74,7 @@ class SearchListActivity : AppCompatActivity() {
         })
 
         searchListViewModel.hasErrorLiveData.observe(this, Observer {error ->
-            if (error) showToast("Error search movies !")
+            if (error) showToast(R.string.request_error)
         })
 
         searchListViewModel.loading.observe(this, Observer { load ->
@@ -129,7 +129,7 @@ class SearchListActivity : AppCompatActivity() {
                 searchListViewModel.getByGenre(genre!!.id!!, pageLoad)
             }
         }else{
-            showToast("Connection error !")
+            showToast(R.string.connection_error)
         }
     }
 

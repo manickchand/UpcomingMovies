@@ -9,5 +9,5 @@ fun hasInternet(context: Context): Boolean {
 }
 
 interface IConnectionUtils {
-    fun executeIfConnection(hasConnection: () -> Unit)
+    fun executeIfConnection(hasConnection: (isConnection: Boolean) -> Unit)
 }

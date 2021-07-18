@@ -3,40 +3,44 @@ package com.manickchand.upcomingmovies.ui.home
 import android.util.Log.i
 import androidx.lifecycle.MutableLiveData
 import com.manickchand.upcomingmovies.base.BaseViewModel
-import com.manickchand.upcomingmovies.domain.models.Movie
+import com.manickchand.upcomingmovies.domain.models.Upcoming
 import com.manickchand.upcomingmovies.domain.useCase.MoviesUseCase
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
+import com.manickchand.upcomingmovies.utils.ViewState
+import com.manickchand.upcomingmovies.utils.toImmutable
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeViewModel(private val moviesUseCase: MoviesUseCase) : BaseViewModel() {
 
-    val moviesLiveData = MutableLiveData< Pair< List<Movie>?, Int> >()
+    private val moviesLiveData = MutableLiveData<ViewState<Upcoming>>()
+    fun getMoviesLiveData() = moviesLiveData.toImmutable()
 
-    fun getUpcomingList(page:Int){
+    fun getUpcomingList(page: Int) {
 
-        launch{
-
-            loading.value = true
-
+        moviesLiveData.value = ViewState.Loading
+        launch {
             try {
-                hasErrorLiveData.value = false
-                moviesLiveData.value = moviesUseCase.getUpcomingList(page)
-            }catch (t:Throwable){
-                hasErrorLiveData.value = true
+                val result = moviesUseCase.getUpcomingList(page)
+                moviesLiveData.value = ViewState.Success(result)
+            } catch (t: Throwable) {
+                moviesLiveData.value = ViewState.Failed(t)
                 i(TAG_DEBUC, "[error] getUpcomingList: ${t.message}")
-            }finally {
-                loading.value = false
             }
         }
-
     }
 
-     fun getByDb(){
+    fun getByDb() {
+        moviesLiveData.value = ViewState.Loading
         launch {
-             withContext(IO) {
-                 moviesLiveData.postValue(moviesUseCase.getAllFromDB())
+            withContext(IO) {
+                try {
+                    moviesLiveData.postValue(ViewState.Success(moviesUseCase.getAllFromDB()))
+                } catch (t: Throwable) {
+                    moviesLiveData.value = ViewState.Failed(t)
+                    i(TAG_DEBUC, "[error] getFromDB: ${t.message}")
+                }
             }
         }
     }
