@@ -9,8 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.R
-import com.manickchand.upcomingmovies.data.models.Genre
-import com.manickchand.upcomingmovies.data.models.Movie
+import com.manickchand.upcomingmovies.domain.models.Genre
+import com.manickchand.upcomingmovies.domain.models.Movie
 import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailActivity
 import com.manickchand.upcomingmovies.utils.IConnectionUtils
 import com.manickchand.upcomingmovies.utils.hasInternet
@@ -28,6 +28,20 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
     private var pageLoad = 1
     private var totalPages =0
 
+    companion object {
+        private const val EXTRA_QUERY = "EXTRA_QUERY"
+        private const val EXTRA_GENRE = "EXTRA_GENRE"
+        private var query:String? = null
+        private var genre:Genre? = null
+
+        fun getStartIntent(context: Context, query: String?, genre:Genre?): Intent {
+            return Intent(context, SearchListActivity::class.java).apply {
+                putExtra(EXTRA_QUERY, query)
+                putExtra(EXTRA_GENRE, genre)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_list)
@@ -39,7 +53,7 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
         }
 
         query = intent.getStringExtra(EXTRA_QUERY)
-        genre = intent.getParcelableExtra(EXTRA_GENRE)
+        genre = intent.getSerializableExtra(EXTRA_GENRE) as Genre?
 
         if(!query.isNullOrEmpty()){
             title = query
@@ -118,17 +132,4 @@ class SearchListActivity : AppCompatActivity(), IConnectionUtils {
         }
     }
 
-    companion object {
-        private const val EXTRA_QUERY = "EXTRA_QUERY"
-        private const val EXTRA_GENRE = "EXTRA_GENRE"
-        private var query:String? = null
-        private var genre:Genre? = null
-
-        fun getStartIntent(context: Context, query: String?, genre:Genre?): Intent {
-            return Intent(context, SearchListActivity::class.java).apply {
-                putExtra(EXTRA_QUERY, query)
-                putExtra(EXTRA_GENRE, genre)
-            }
-        }
-    }
 }

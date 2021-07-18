@@ -8,7 +8,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.databinding.ItemGenreBinding
-import com.manickchand.upcomingmovies.data.models.Genre
+import com.manickchand.upcomingmovies.domain.models.Genre
 
 class SearchGenreAdapter(context: Context,
                          list: List<Genre>,

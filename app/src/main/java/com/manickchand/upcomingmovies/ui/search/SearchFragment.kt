@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.R
 import com.manickchand.upcomingmovies.base.BaseFragment
-import com.manickchand.upcomingmovies.data.models.Genre
+import com.manickchand.upcomingmovies.domain.models.Genre
 import com.manickchand.upcomingmovies.ui.searchList.SearchListActivity
 import com.manickchand.upcomingmovies.utils.hasInternet
 import com.manickchand.upcomingmovies.utils.showToast
@@ -39,8 +39,8 @@ class SearchFragment : BaseFragment() {
             setHasFixedSize(true)
             adapter = SearchGenreAdapter(context, mList){ genre ->
                 //SEARCH BY GENRE
-                val intent = SearchListActivity.getStartIntent(activity!!, null, genre)
-                activity!!.startActivity(intent)
+                val intent = SearchListActivity.getStartIntent(requireContext(), null, genre)
+                requireActivity().startActivity(intent)
             }
         }
 
@@ -72,8 +72,8 @@ class SearchFragment : BaseFragment() {
             if(actionId == EditorInfo.IME_ACTION_SEARCH){
                 val str = et_search.text.toString()
                 if(str.isNotEmpty()) {
-                    val intent = SearchListActivity.getStartIntent(activity!!, str, null)
-                    activity!!.startActivity(intent)
+                    val intent = SearchListActivity.getStartIntent(requireContext(), str, null)
+                    requireActivity().startActivity(intent)
                 }else{
                     showToast("fill in the field")
                 }

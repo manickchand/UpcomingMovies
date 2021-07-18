@@ -1,4 +1,4 @@
-package com.manickchand.upcomingmovies.data.models
+package com.manickchand.upcomingmovies.domain.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

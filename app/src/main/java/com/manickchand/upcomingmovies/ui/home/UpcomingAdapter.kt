@@ -8,7 +8,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.databinding.ItemMovieBinding
-import com.manickchand.upcomingmovies.data.models.Movie
+import com.manickchand.upcomingmovies.domain.models.Movie
 
 class UpcomingAdapter(context: Context,
                       list: List<Movie>,

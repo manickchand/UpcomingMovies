@@ -5,14 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.manickchand.upcomingmovies.base.BaseViewModel
-import com.manickchand.upcomingmovies.data.models.Movie
-import com.manickchand.upcomingmovies.data.repository.UpcomingMoviesRepository
+import com.manickchand.upcomingmovies.domain.models.Movie
+import com.manickchand.upcomingmovies.domain.useCase.MoviesUseCase
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MovieDetailViewModel(private val upcomingMoviesRepository: UpcomingMoviesRepository) : BaseViewModel(){
+class MovieDetailViewModel(private val moviesUseCase: MoviesUseCase) : BaseViewModel(){
 
     private val _movieDetailLiveData = MutableLiveData<Movie>()
     val movie: LiveData<Movie> = Transformations.map(_movieDetailLiveData) { it }
@@ -25,7 +25,7 @@ class MovieDetailViewModel(private val upcomingMoviesRepository: UpcomingMoviesR
 
             try {
 
-                _movieDetailLiveData.value = upcomingMoviesRepository.getMovieDetail( movie_id )
+                _movieDetailLiveData.value = moviesUseCase.getMovieDetail( movie_id )
                 hasErrorLiveData.value = false
 
             }catch (t:Throwable){
@@ -42,7 +42,7 @@ class MovieDetailViewModel(private val upcomingMoviesRepository: UpcomingMoviesR
     fun insertMovie(movie:Movie){
         launch {
             withContext(IO) {
-                upcomingMoviesRepository.insertMovieInDB(movie)
+                moviesUseCase.insertMovieInDB(movie)
             }
         }
     }
@@ -51,7 +51,7 @@ class MovieDetailViewModel(private val upcomingMoviesRepository: UpcomingMoviesR
         launch {
             withContext(IO) {
                 try {
-                    _movieDetailLiveData.postValue(upcomingMoviesRepository.getMovieByIdDB(movie_id))
+                    _movieDetailLiveData.postValue(moviesUseCase.getMovieByIdDB(movie_id))
                 }catch (t:Throwable){
                     Log.i(TAG_DEBUC, "[error] getMovie: ${t.message}")
                 }

@@ -1,8 +1,8 @@
 package com.manickchand.upcomingmovies.data.repository
 
-import com.manickchand.upcomingmovies.data.models.GenreList
-import com.manickchand.upcomingmovies.data.models.Movie
-import com.manickchand.upcomingmovies.data.models.Upcoming
+import com.manickchand.upcomingmovies.domain.models.GenreList
+import com.manickchand.upcomingmovies.domain.models.Movie
+import com.manickchand.upcomingmovies.domain.models.Upcoming
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

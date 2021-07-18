@@ -18,6 +18,11 @@ android {
 
     }
     buildTypes {
+
+        debug{
+            minifyEnabled false
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -46,6 +51,8 @@ android {
 
 dependencies {
     implementation project(":data")
+    implementation project(":domain")
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'androidx.appcompat:appcompat:1.0.2'

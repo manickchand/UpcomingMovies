@@ -7,7 +7,7 @@
     <data>
         <variable
             name="movie"
-            type="com.manickchand.upcomingmovies.data.models.Movie" />
+            type="com.manickchand.upcomingmovies.domain.models.Movie" />
     </data>
 
     <androidx.cardview.widget.CardView

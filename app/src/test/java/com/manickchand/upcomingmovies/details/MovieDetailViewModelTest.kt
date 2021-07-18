@@ -2,7 +2,7 @@ package com.manickchand.upcomingmovies.details
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.manickchand.upcomingmovies.data.models.Movie
+import com.manickchand.upcomingmovies.domain.models.Movie
 import com.manickchand.upcomingmovies.data.repository.UpcomingMoviesRepository
 import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailViewModel
 import com.nhaarman.mockitokotlin2.mock

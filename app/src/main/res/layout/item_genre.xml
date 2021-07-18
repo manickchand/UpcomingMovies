@@ -9,7 +9,7 @@
 
         <variable
             name="genre"
-            type="com.manickchand.upcomingmovies.data.models.Genre" />
+            type="com.manickchand.upcomingmovies.domain.models.Genre" />
     </data>
 
     <androidx.cardview.widget.CardView

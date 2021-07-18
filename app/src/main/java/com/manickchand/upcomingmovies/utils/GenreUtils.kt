@@ -3,7 +3,7 @@ package com.manickchand.upcomingmovies.utils
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import com.manickchand.upcomingmovies.R
-import com.manickchand.upcomingmovies.data.models.Genre
+import com.manickchand.upcomingmovies.domain.models.Genre
 
 class GenreUtils {
 

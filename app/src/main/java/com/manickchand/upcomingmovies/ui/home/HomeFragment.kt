@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.R
 import com.manickchand.upcomingmovies.base.BaseFragment
-import com.manickchand.upcomingmovies.data.models.Movie
+import com.manickchand.upcomingmovies.domain.models.Movie
 import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailActivity
 import com.manickchand.upcomingmovies.utils.hasInternet
 import com.manickchand.upcomingmovies.utils.showToast
@@ -94,8 +94,8 @@ class HomeFragment : BaseFragment() {
             })
 
             adapter = UpcomingAdapter(context, mList){ movie ->
-                val intent = MovieDetailActivity.getStartIntent(activity!!, movie.id)
-                activity!!.startActivity(intent)
+                val intent = MovieDetailActivity.getStartIntent(requireContext(), movie.id)
+                requireActivity().startActivity(intent)
             }
         }
     }

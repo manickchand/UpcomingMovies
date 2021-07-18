@@ -3,12 +3,13 @@ package com.manickchand.upcomingmovies.ui.searchList
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.manickchand.upcomingmovies.base.BaseViewModel
-import com.manickchand.upcomingmovies.data.models.Movie
-import com.manickchand.upcomingmovies.data.repository.UpcomingMoviesRepository
+import com.manickchand.upcomingmovies.domain.models.Movie
+import com.manickchand.upcomingmovies.domain.useCase.GenresUseCase
+import com.manickchand.upcomingmovies.domain.useCase.MoviesUseCase
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
 import kotlinx.coroutines.launch
 
-class SearchListViewModel(private val upcomingMoviesRepository: UpcomingMoviesRepository) : BaseViewModel() {
+class SearchListViewModel(private val moviesUseCase: MoviesUseCase, private val genresUseCase: GenresUseCase) : BaseViewModel() {
 
     val searchListLiveData = MutableLiveData< Pair< List<Movie>?, Int> >()
 
@@ -19,7 +20,7 @@ class SearchListViewModel(private val upcomingMoviesRepository: UpcomingMoviesRe
 
             try {
                 hasErrorLiveData.value = false
-                searchListLiveData.value = upcomingMoviesRepository.searchMovies(query, page)
+                searchListLiveData.value = moviesUseCase.searchMovies(query, page)
             }catch (t:Throwable){
                 hasErrorLiveData.value = true
                 Log.e(TAG_DEBUC,"[Error searchMovies] "+t.message)
@@ -37,7 +38,7 @@ class SearchListViewModel(private val upcomingMoviesRepository: UpcomingMoviesRe
 
             try {
                 hasErrorLiveData.value = false
-                searchListLiveData.value =  upcomingMoviesRepository.getByGenre(id, page)
+                searchListLiveData.value =  genresUseCase.getByGenre(id, page)
             }catch (t:Throwable){
                 hasErrorLiveData.value = true
                 Log.e(TAG_DEBUC,"[Error searchMovies] "+t.message)
