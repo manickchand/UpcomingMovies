@@ -1,51 +1,34 @@
 package com.manickchand.upcomingmovies.ui.search
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.databinding.ItemGenreBinding
 import com.manickchand.upcomingmovies.domain.models.Genre
 
-class SearchGenreAdapter(context: Context,
-                         list: List<Genre>,
-                         private val onItemClickListener:((genre:Genre) -> Unit) ) : RecyclerView.Adapter<SearchGenreAdapter.MyViewHolder?>() {
+class SearchGenreAdapter(
+    private val list: List<Genre>,
+    private val onItemClickListener: ((genre: Genre) -> Unit)
+) : RecyclerView.Adapter<SearchGenreAdapter.ViewHolder?>() {
 
-    private var mContext =context
-    private var mList = list
-    private var lastPosition = -1
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ViewHolder(
+            ItemGenreBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            onItemClickListener
+        )
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val inflater = LayoutInflater.from(mContext)
-        val binding = ItemGenreBinding.inflate(inflater,parent,false)
-        return MyViewHolder(binding,onItemClickListener)
-    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(list[position])
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bindGenre(mList[position])
-        setAnimation(holder.itemView, position)
-    }
+    override fun getItemCount() = list.size
 
-    private fun setAnimation(viewToAnimate: View, position: Int) {
-        if (position > lastPosition) {
-            val animation: Animation =
-                AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left)
-            viewToAnimate.startAnimation(animation)
-            lastPosition = position
-        }
-    }
+    inner class ViewHolder(
+        private val binding: ItemGenreBinding,
+        private val onItemClickListener: ((genre: Genre) -> Unit)
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-    override fun getItemCount() = mList.count()
-
-    inner class MyViewHolder(private val binding: ItemGenreBinding,
-                             private val onItemClickListener: ((genre: Genre) -> Unit)) :RecyclerView.ViewHolder(binding.root){
-
-        fun bindGenre(genre: Genre) {
+        fun bind(genre: Genre) {
             binding.genre = genre
-            binding.root.setOnClickListener{
+            binding.root.setOnClickListener {
                 onItemClickListener.invoke(genre)
             }
         }

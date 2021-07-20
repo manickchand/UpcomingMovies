@@ -3,14 +3,12 @@ package com.manickchand.upcomingmovies.utils
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import com.manickchand.upcomingmovies.R
-import com.manickchand.upcomingmovies.domain.models.Genre
 
 class GenreUtils {
 
     companion object{
-        @JvmStatic
-        fun getGenreColor(genre: Genre): Int {
-            return when (genre.id) {
+        private fun getGenreColor(id: Int): Int {
+            return when (id) {
                 28, 10749 -> R.color.red
                 12, 16 -> R.color.lightRed
                 99, 36, 37 -> R.color.brown
@@ -24,8 +22,8 @@ class GenreUtils {
 
         @JvmStatic
         @BindingAdapter("bind:cardBackgroundColor")
-        fun setBackgroundCardColor(card: CardView, color: Int ) {
-            card.setBackgroundResource(color)
+        fun setBackgroundCardColor(card: CardView, genreId: Int ) {
+            card.setBackgroundResource(getGenreColor(genreId))
         }
     }
 }

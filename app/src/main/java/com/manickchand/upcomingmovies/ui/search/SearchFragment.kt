@@ -19,7 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class SearchFragment : BaseFragment() {
 
     private val viewModel by viewModel<SearchViewModel>()
-    private var mList:MutableList<Genre> = ArrayList()
+    private var mList: MutableList<Genre> = ArrayList()
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
@@ -37,7 +37,7 @@ class SearchFragment : BaseFragment() {
         searchListener()
         bindObserver()
         setupRecyclerView()
-        binding.swiperefreshGenres.setOnRefreshListener{
+        binding.swiperefreshGenres.setOnRefreshListener {
             fetchGenres()
         }
         fetchGenres()
@@ -63,26 +63,24 @@ class SearchFragment : BaseFragment() {
         })
     }
 
-    private fun setupRecyclerView(){
-        with(binding.rvGenresSearch){
+    private fun setupRecyclerView() {
+        with(binding.rvGenresSearch) {
             layoutManager = GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false)
             setHasFixedSize(true)
-            adapter = SearchGenreAdapter(context, mList){ genre ->
-                val intent = SearchListActivity.getStartIntent(requireContext(), null, genre)
-                requireActivity().startActivity(intent)
+            adapter = SearchGenreAdapter(mList) { genre ->
+                goToSearchListActivity(genre = genre)
             }
         }
     }
 
-    private fun searchListener(){
+    private fun searchListener() {
         binding.etSearch.apply {
-            setOnEditorActionListener{ _, actionId, _ ->
-                if(actionId == EditorInfo.IME_ACTION_SEARCH){
-                    val str = text.toString()
-                    if(str.isNotEmpty()) {
-                        val intent = SearchListActivity.getStartIntent(requireContext(), str, null)
-                        requireActivity().startActivity(intent)
-                    }else{
+            setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    val query = text.toString()
+                    if (query.isNotEmpty()) {
+                        goToSearchListActivity(query = query)
+                    } else {
                         requireContext().showToast(R.string.request_error)
                     }
                     true
@@ -93,7 +91,12 @@ class SearchFragment : BaseFragment() {
         }
     }
 
-    private fun fetchGenres(){
+    private fun goToSearchListActivity(query: String? = null, genre: Genre? = null) {
+        val intent = SearchListActivity.getStartIntent(requireContext(), query, genre)
+        requireActivity().startActivity(intent)
+    }
+
+    private fun fetchGenres() {
         executeIfConnection {
             viewModel.getAllGenres()
         }

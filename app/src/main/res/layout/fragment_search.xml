@@ -13,8 +13,8 @@
             android:id="@+id/cl_search"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="@dimen/text_margin"
-            app:layout_constraintHeight_percent="0.15"
+            android:paddingTop="@dimen/padding_top_home"
+            app:layout_constraintHeight_percent="0.16"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -28,7 +28,7 @@
                 android:hint="@string/search_hint"
                 android:inputType="text"
                 android:imeOptions="actionSearch"
-                android:padding="12dp"
+                android:padding="@dimen/text_margin"
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="@color/colorWhite"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="?attr/actionBarSize"
-                app:layoutManager="GridLayoutManager"
+                tools:layoutManager="GridLayoutManager"
                 tools:listitem="@layout/item_genre"
                 tools:spanCount="2" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

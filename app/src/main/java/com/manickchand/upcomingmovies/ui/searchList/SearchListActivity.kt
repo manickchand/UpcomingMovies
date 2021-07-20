@@ -90,7 +90,7 @@ class SearchListActivity : AppCompatActivity() {
                 }
             }
 
-            adapter = SearchListAdapter(context, mList) { movie ->
+            adapter = SearchListAdapter(mList) { movie ->
                 val intent = MovieDetailActivity.getStartIntent(this@SearchListActivity, movie.id)
                 startActivity(intent)
             }

@@ -5,8 +5,6 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.manickchand.upcomingmovies.utils.GenreUtils"/>
-
         <variable
             name="genre"
             type="com.manickchand.upcomingmovies.domain.models.Genre" />
@@ -16,25 +14,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
         app:contentPadding="4dp"
-        bind:cardBackgroundColor="@{GenreUtils.getGenreColor(genre)}"
-        android:foreground="?android:attr/selectableItemBackground">
-
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="top|right"
-             />
+        bind:cardBackgroundColor="@{genre.id}">
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginTop="@dimen/margin_genre_item_top"
+            android:padding="@dimen/text_margin"
             android:text="@{genre.name}"
             android:textColor="@color/colorWhite"
-            android:textSize="20sp"
-            android:padding="16dp"
-            android:layout_marginTop="48dp"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:textSize="20sp" />
 
     </androidx.cardview.widget.CardView>
 

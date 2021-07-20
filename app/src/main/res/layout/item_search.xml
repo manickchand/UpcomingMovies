@@ -5,6 +5,7 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="movie"
             type="com.manickchand.upcomingmovies.domain.models.Movie" />
@@ -13,89 +14,85 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        app:cardBackgroundColor="@color/transparent"
-        android:elevation="5dp"
         android:layout_margin="8dp"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:elevation="5dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/transparent"
+        app:cardCornerRadius="8dp">
 
-       <androidx.constraintlayout.widget.ConstraintLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:background="@color/transparent"
-           >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent">
 
-           <ImageView
-               android:id="@+id/iv_movie_search"
-               android:layout_width="120dp"
-               android:layout_height="160dp"
-               android:adjustViewBounds="true"
-               android:scaleType="centerCrop"
-               android:src="@drawable/placeholder"
-               app:layout_constraintLeft_toLeftOf="parent"
-               app:layout_constraintTop_toTopOf="parent"
-               app:layout_constraintBottom_toBottomOf="parent"
-               bind:picassoLoad="@{movie.poster_path}"
-               />
+            <ImageView
+                android:id="@+id/iv_movie_search"
+                android:layout_width="120dp"
+                android:layout_height="160dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:picassoLoad="@{movie.poster_path}" />
 
-           <androidx.appcompat.widget.AppCompatTextView
-               android:id="@+id/tv_movie_name"
-               android:layout_width="0dp"
-               android:layout_height="wrap_content"
-               android:layout_margin="8dp"
-               android:text="@{movie.title, default=MOVIE_NAME}"
-               android:textColor="@color/colorWhite"
-               android:textSize="16sp"
-               android:textStyle="bold"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toEndOf="@+id/iv_movie_search"
-               app:layout_constraintTop_toTopOf="parent" />
-
-
-           <ImageView
-               android:id="@+id/iv_star"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:src="@drawable/ic_star"
-               android:layout_margin="8dp"
-               app:layout_constraintStart_toEndOf="@id/iv_movie_search"
-               app:layout_constraintTop_toBottomOf="@id/tv_movie_name"
-               />
-
-           <androidx.appcompat.widget.AppCompatTextView
-               android:id="@+id/tv_movie_vote"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_margin="8dp"
-               android:text="@{movie.vote_average.toString(), default=8.5}"
-               android:textColor="@color/colorWhite"
-               android:textSize="18sp"
-               app:layout_constraintStart_toEndOf="@+id/iv_star"
-               app:layout_constraintTop_toBottomOf="@id/tv_movie_name"/>
-
-           <ImageView
-               android:id="@+id/iv_calendar"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:src="@drawable/ic_calendar_18_white"
-               android:layout_margin="10dp"
-               app:layout_constraintStart_toEndOf="@id/iv_movie_search"
-               app:layout_constraintTop_toBottomOf="@id/iv_star"
-               />
-
-           <androidx.appcompat.widget.AppCompatTextView
-               android:id="@+id/tv_movie_release"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_margin="8dp"
-               android:text="@{@string/format(movie.release_date), default=12_12_12}"
-               android:textColor="@color/colorWhite"
-               android:textSize="16sp"
-               app:layout_constraintStart_toEndOf="@+id/iv_star"
-               app:layout_constraintTop_toBottomOf="@id/tv_movie_vote"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_movie_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@{movie.title, default=MOVIE_NAME}"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_movie_search"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-       </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/iv_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_star"
+                app:layout_constraintStart_toEndOf="@id/iv_movie_search"
+                app:layout_constraintTop_toBottomOf="@id/tv_movie_name" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_movie_vote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@{movie.vote_average.toString(), default=10.0}"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/iv_star"
+                app:layout_constraintTop_toBottomOf="@id/tv_movie_name" />
+
+            <ImageView
+                android:id="@+id/iv_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_calendar_18_white"
+                app:layout_constraintStart_toEndOf="@id/iv_movie_search"
+                app:layout_constraintTop_toBottomOf="@id/iv_star" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_movie_release"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@{@string/format(movie.release_date), default=12_12_12}"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/iv_star"
+                app:layout_constraintTop_toBottomOf="@id/tv_movie_vote" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
