@@ -6,25 +6,25 @@ import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.domain.models.Genre
 import com.manickchand.upcomingmovies.domain.useCase.GenresUseCase
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
+import com.manickchand.upcomingmovies.utils.ViewState
+import com.manickchand.upcomingmovies.utils.toImmutable
 import kotlinx.coroutines.launch
 
 class SearchViewModel(private val genresUseCase: GenresUseCase) : BaseViewModel() {
 
-    val genreListLiveData = MutableLiveData< List<Genre> >()
+    private val genreListLiveData = MutableLiveData<ViewState<List<Genre>>>()
+    fun getGenreListLiveData() = genreListLiveData.toImmutable()
 
     fun getAllGenres(){
 
         launch {
-            loading.value = true
+            genreListLiveData.value = ViewState.Loading
 
             try {
-                hasErrorLiveData.value = false
-                genreListLiveData.value = genresUseCase.getAllGenres()
+                genreListLiveData.value = ViewState.Success(genresUseCase.getAllGenres())
             }catch (t:Throwable){
-                hasErrorLiveData.value = true
+                genreListLiveData.value = ViewState.Failed(t)
                 Log.e(TAG_DEBUC,"[Error getAllGenres] "+t.message)
-            }finally {
-                loading.value = false
             }
         }
     }

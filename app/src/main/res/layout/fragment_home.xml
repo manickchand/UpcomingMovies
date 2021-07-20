@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:clipToPadding="false"
-                android:paddingTop="30dp"
+                android:paddingTop="@dimen/padding_top_home"
                 android:paddingBottom="?attr/actionBarSize"
                 app:layoutManager="GridLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
