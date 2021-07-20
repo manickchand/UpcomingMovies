@@ -8,4 +8,5 @@
     <string name="search_hint">Search Movies</string>
     <string name="connection_error">Connection error!</string>
     <string name="request_error">Error!</string>
+    <string name="overview">Overview</string>
 </resources>

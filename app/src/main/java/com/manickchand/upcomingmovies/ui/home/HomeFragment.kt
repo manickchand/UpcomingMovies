@@ -8,17 +8,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.R
 import com.manickchand.upcomingmovies.base.BaseFragment
+import com.manickchand.upcomingmovies.databinding.FragmentHomeBinding
 import com.manickchand.upcomingmovies.domain.models.Movie
 import com.manickchand.upcomingmovies.domain.models.Upcoming
 import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailActivity
 import com.manickchand.upcomingmovies.utils.ViewState
 import com.manickchand.upcomingmovies.utils.addInfiniteScroll
 import com.manickchand.upcomingmovies.utils.showToast
-import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
 
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
     private val homeViewModel by viewModel<HomeViewModel>()
     private var mList: MutableList<Movie> = ArrayList()
     private var pageLoad = 0
@@ -28,7 +30,9 @@ class HomeFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = inflater.inflate(R.layout.fragment_home, container, false)
+    ) = FragmentHomeBinding.inflate(inflater, container, false).also {
+        _binding = it
+    }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -36,8 +40,9 @@ class HomeFragment : BaseFragment() {
 
         bindObserver()
 
-        swiperefresh.setOnRefreshListener {
+        binding.swiperefresh.setOnRefreshListener {
             pageLoad = 0
+            mList.clear()
             fetchUpcoming()
         }
 
@@ -48,14 +53,14 @@ class HomeFragment : BaseFragment() {
         homeViewModel.getMoviesLiveData().observe(viewLifecycleOwner, { state ->
             when (state) {
                 is ViewState.Success -> {
-                    swiperefresh.isRefreshing = false
+                    binding.swiperefresh.isRefreshing = false
                     addItems(state.data)
                 }
                 is ViewState.Loading -> {
-                    swiperefresh.isRefreshing = true
+                    binding.swiperefresh.isRefreshing = true
                 }
                 else -> {
-                    swiperefresh.isRefreshing = false
+                    binding.swiperefresh.isRefreshing = false
                     requireContext().showToast(R.string.request_error)
                 }
             }
@@ -65,12 +70,12 @@ class HomeFragment : BaseFragment() {
     private fun addItems(upcoming: Upcoming) {
         mList.addAll(upcoming.results)
         totalPages = upcoming.total_pages
-        rv_upcoming_movies.adapter?.notifyDataSetChanged()
+        binding.rvUpcomingMovies.adapter?.notifyDataSetChanged()
     }
 
     private fun setupRecyclerView() {
 
-        with(rv_upcoming_movies) {
+        with(binding.rvUpcomingMovies) {
 
             layoutManager = GridLayoutManager(activity, 3, RecyclerView.VERTICAL, false)
             setHasFixedSize(true)
@@ -81,8 +86,9 @@ class HomeFragment : BaseFragment() {
             }
 
             adapter = UpcomingAdapter(mList) { movie ->
-                val intent = MovieDetailActivity.getStartIntent(requireContext(), movie.id)
-                requireActivity().startActivity(intent)
+                startActivity(
+                    MovieDetailActivity.getStartIntent(requireContext(), movie.id)
+                )
             }
         }
     }

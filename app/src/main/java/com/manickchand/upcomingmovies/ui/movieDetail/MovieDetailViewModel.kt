@@ -1,45 +1,39 @@
 package com.manickchand.upcomingmovies.ui.movieDetail
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.manickchand.upcomingmovies.base.BaseViewModel
 import com.manickchand.upcomingmovies.domain.models.Movie
 import com.manickchand.upcomingmovies.domain.useCase.MoviesUseCase
 import com.manickchand.upcomingmovies.utils.TAG_DEBUC
+import com.manickchand.upcomingmovies.utils.ViewState
+import com.manickchand.upcomingmovies.utils.toImmutable
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MovieDetailViewModel(private val moviesUseCase: MoviesUseCase) : BaseViewModel(){
+class MovieDetailViewModel(private val moviesUseCase: MoviesUseCase) : BaseViewModel() {
 
-    private val _movieDetailLiveData = MutableLiveData<Movie>()
-    val movie: LiveData<Movie> = Transformations.map(_movieDetailLiveData) { it }
-    val load: LiveData<Boolean> = Transformations.map(loading) { it }
+    private val movieDetailLiveData = MutableLiveData<ViewState<Movie>>()
+    fun getMovieDetail() = movieDetailLiveData.toImmutable()
 
-    fun getMovieDetail(movie_id:Int){
+    fun getMovieDetail(movie_id: Int) {
+
+        movieDetailLiveData.value = ViewState.Loading
 
         launch {
-            loading.value = true
-
             try {
-
-                _movieDetailLiveData.value = moviesUseCase.getMovieDetail( movie_id )
-                hasErrorLiveData.value = false
-
-            }catch (t:Throwable){
-                hasErrorLiveData.value = true
+                movieDetailLiveData.value =
+                    ViewState.Success(moviesUseCase.getMovieDetail(movie_id))
+            } catch (t: Throwable) {
+                movieDetailLiveData.value = ViewState.Failed(t)
                 Log.i(TAG_DEBUC, "[error] getMovieDetail: ${t.message}")
 
-            }finally {
-                loading.value = false
             }
-
         }
     }
 
-    fun insertMovie(movie:Movie){
+    fun insertMovie(movie: Movie) {
         launch {
             withContext(IO) {
                 moviesUseCase.insertMovieInDB(movie)
@@ -47,12 +41,20 @@ class MovieDetailViewModel(private val moviesUseCase: MoviesUseCase) : BaseViewM
         }
     }
 
-    fun getMovie(movie_id:Int){
+    fun getMovie(movie_id: Int) {
+        movieDetailLiveData.value = ViewState.Loading
         launch {
             withContext(IO) {
                 try {
-                    _movieDetailLiveData.postValue(moviesUseCase.getMovieByIdDB(movie_id))
-                }catch (t:Throwable){
+                    movieDetailLiveData.postValue(
+                        ViewState.Success(
+                            moviesUseCase.getMovieByIdDB(
+                                movie_id
+                            )
+                        )
+                    )
+                } catch (t: Throwable) {
+                    movieDetailLiveData.value = ViewState.Failed(t)
                     Log.i(TAG_DEBUC, "[error] getMovie: ${t.message}")
                 }
             }
