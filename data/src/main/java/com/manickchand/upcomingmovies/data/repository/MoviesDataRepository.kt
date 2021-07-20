@@ -26,9 +26,6 @@ class MoviesDataRepository(private val service: IServiceRetrofit, private val da
         return database.findById(movie_id)
     }
 
-    override suspend fun searchMovies(query: String, page: Int): Pair<List<Movie>?, Int> {
-        val response = service.searchMovies(query, page)
-        return Pair(response.results ?: emptyList(), response.total_pages ?: 0)
-    }
+    override suspend fun searchMovies(query: String, page: Int) = service.searchMovies(query, page)
 
 }
