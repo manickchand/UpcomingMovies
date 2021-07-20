@@ -5,8 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
             name="movie"
             type="com.manickchand.upcomingmovies.domain.models.Movie" />
@@ -20,8 +18,8 @@
 
         <ProgressBar
             android:id="@+id/pb_detail_movie"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/progress_bar_size"
+            android:layout_height="@dimen/progress_bar_size"
             android:layout_gravity="center"
             android:backgroundTint="@color/colorPrimary" />
 
@@ -98,7 +96,6 @@
                     app:popupTheme="@style/AppTheme.PopupOverlay"
                     app:title="@{movie.title}"
                     bind:navigationClick="@{context}" />
-
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>

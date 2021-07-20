@@ -60,9 +60,7 @@ class MovieDetailActivity : AppCompatActivity() {
         @JvmStatic
         @BindingAdapter("bind:genres")
         fun setGenres(textView: AppCompatTextView, genres: List<Genre>?) {
-            if (genres != null) {
-                textView.text = genres.joinToString { "${it.name}" }
-            }
+            textView.text = genres?.joinToString { "${it.name}" } ?: ""
         }
 
         @JvmStatic
