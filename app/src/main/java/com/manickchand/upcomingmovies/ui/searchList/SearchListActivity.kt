@@ -9,6 +9,7 @@ import com.manickchand.upcomingmovies.R
 import com.manickchand.upcomingmovies.databinding.ActivitySearchListBinding
 import com.manickchand.upcomingmovies.domain.models.Genre
 import com.manickchand.upcomingmovies.domain.models.Movie
+import com.manickchand.upcomingmovies.domain.models.Upcoming
 import com.manickchand.upcomingmovies.ui.movieDetail.MovieDetailActivity
 import com.manickchand.upcomingmovies.utils.ViewState
 import com.manickchand.upcomingmovies.utils.addInfiniteScroll
@@ -63,20 +64,30 @@ class SearchListActivity : AppCompatActivity() {
         viewModel.getSearchListLiveData().observe(this, { state ->
             when (state) {
                 is ViewState.Success -> {
-                    mList.addAll(state.data.results)
-                    totalPages = state.data.total_pages
-                    binding.rvSearchMovies.adapter?.notifyDataSetChanged()
-                    binding.pbSearchMovie.isVisible = false
+                    setData(state.data)
                 }
                 is ViewState.Loading -> {
                     binding.pbSearchMovie.isVisible = true
                 }
                 else -> {
-                    binding.pbSearchMovie.isVisible = false
+                    stopLoad()
                     showToast(R.string.request_error)
                 }
             }
         })
+    }
+
+    private fun setData(upcoming: Upcoming){
+        upcoming.run {
+            mList.addAll(results)
+            totalPages = total_pages
+        }
+        binding.rvSearchMovies.adapter?.notifyDataSetChanged()
+        stopLoad()
+    }
+
+    private fun stopLoad(){
+        binding.pbSearchMovie.isVisible = false
     }
 
     private fun setupRecyclerView() {
@@ -90,8 +101,8 @@ class SearchListActivity : AppCompatActivity() {
                 }
             }
 
-            adapter = SearchListAdapter(mList) { movie ->
-                val intent = MovieDetailActivity.getStartIntent(this@SearchListActivity, movie.id)
+            adapter = SearchListAdapter(mList) { movieId ->
+                val intent = MovieDetailActivity.getStartIntent(this@SearchListActivity, movieId)
                 startActivity(intent)
             }
         }

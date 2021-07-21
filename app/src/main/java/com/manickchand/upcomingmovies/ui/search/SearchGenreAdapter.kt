@@ -18,7 +18,6 @@ class SearchGenreAdapter(
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(list[position])
-
     override fun getItemCount() = list.size
 
     inner class ViewHolder(

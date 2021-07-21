@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.upcomingmovies.databinding.ItemMovieBinding
 import com.manickchand.upcomingmovies.domain.models.Movie
 
-class UpcomingAdapter(
+class HomeAdapter(
     private val list: List<Movie>,
-    private val onItemClickListener: ((movie: Movie) -> Unit)
-) : RecyclerView.Adapter<UpcomingAdapter.ViewHolder>() {
+    private val onItemClickListener: ((movieId: Int) -> Unit)
+) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
@@ -21,13 +21,13 @@ class UpcomingAdapter(
 
     inner class ViewHolder(
         private val binding: ItemMovieBinding,
-        private val onItemClickListener: ((movie: Movie) -> Unit)
+        private val onItemClickListener: ((movieId: Int) -> Unit)
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindMovie(movie: Movie) {
             binding.movie = movie
             binding.root.setOnClickListener {
-                onItemClickListener.invoke(movie)
+                onItemClickListener.invoke(movie.id)
             }
         }
     }

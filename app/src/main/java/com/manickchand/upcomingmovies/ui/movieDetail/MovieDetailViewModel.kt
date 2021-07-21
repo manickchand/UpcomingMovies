@@ -23,17 +23,16 @@ class MovieDetailViewModel(private val moviesUseCase: MoviesUseCase) : BaseViewM
 
         launch {
             try {
-                movieDetailLiveData.value =
-                    ViewState.Success(moviesUseCase.getMovieDetail(movie_id))
+                val result = moviesUseCase.getMovieDetail(movie_id)
+                movieDetailLiveData.value = ViewState.Success(result)
             } catch (t: Throwable) {
                 movieDetailLiveData.value = ViewState.Failed(t)
                 Log.i(TAG_DEBUC, "[error] getMovieDetail: ${t.message}")
-
             }
         }
     }
 
-    fun insertMovie(movie: Movie) {
+    fun insertMovieInDB(movie: Movie) {
         launch {
             withContext(IO) {
                 moviesUseCase.insertMovieInDB(movie)
@@ -41,20 +40,17 @@ class MovieDetailViewModel(private val moviesUseCase: MoviesUseCase) : BaseViewM
         }
     }
 
-    fun getMovie(movie_id: Int) {
+    fun getMovieFromDB(movie_id: Int) {
         movieDetailLiveData.value = ViewState.Loading
         launch {
             withContext(IO) {
                 try {
+                    val result = moviesUseCase.getMovieByIdDB( movie_id )
                     movieDetailLiveData.postValue(
-                        ViewState.Success(
-                            moviesUseCase.getMovieByIdDB(
-                                movie_id
-                            )
-                        )
+                        ViewState.Success( result )
                     )
                 } catch (t: Throwable) {
-                    movieDetailLiveData.value = ViewState.Failed(t)
+                    movieDetailLiveData.postValue(ViewState.Failed(t))
                     Log.i(TAG_DEBUC, "[error] getMovie: ${t.message}")
                 }
             }

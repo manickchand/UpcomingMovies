@@ -33,19 +33,23 @@ class MovieDetailActivity : AppCompatActivity() {
         viewModel.getMovieDetail().observe(this, { state ->
             when (state) {
                 is ViewState.Success -> {
-                    binding.pbDetailMovie.isVisible = false
+                    stopLoad()
                     binding.movie = state.data
-                    viewModel.insertMovie(state.data)
+                    viewModel.insertMovieInDB(state.data)
                 }
                 is ViewState.Loading -> {
                     binding.pbDetailMovie.isVisible = true
                 }
                 else -> {
-                    binding.pbDetailMovie.isVisible = false
-                    viewModel.getMovie(movieId)
+                    stopLoad()
+                    viewModel.getMovieFromDB(movieId)
                 }
             }
         })
+    }
+
+    private fun stopLoad(){
+        binding.pbDetailMovie.isVisible = false
     }
 
     companion object {

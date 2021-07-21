@@ -21,7 +21,7 @@ class HomeFragment : BaseFragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val homeViewModel by viewModel<HomeViewModel>()
+    private val viewModel by viewModel<HomeViewModel>()
     private var mList: MutableList<Movie> = ArrayList()
     private var pageLoad = 0
     private var totalPages = 0
@@ -30,47 +30,54 @@ class HomeFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FragmentHomeBinding.inflate(inflater, container, false).also {
-        _binding = it
-    }.root
+    ) = FragmentHomeBinding
+        .inflate(inflater, container, false)
+        .also { _binding = it }
+        .root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         setupRecyclerView()
-
+        setupRefresh()
         bindObserver()
+        fetchUpcoming()
+    }
 
+    private fun setupRefresh() {
         binding.swiperefresh.setOnRefreshListener {
             pageLoad = 0
             mList.clear()
             fetchUpcoming()
         }
-
-        fetchUpcoming()
     }
 
     private fun bindObserver() {
-        homeViewModel.getMoviesLiveData().observe(viewLifecycleOwner, { state ->
+        viewModel.getMoviesLiveData().observe(viewLifecycleOwner, { state ->
             when (state) {
                 is ViewState.Success -> {
-                    binding.swiperefresh.isRefreshing = false
+                    stopLoad()
                     addItems(state.data)
                 }
                 is ViewState.Loading -> {
                     binding.swiperefresh.isRefreshing = true
                 }
                 else -> {
-                    binding.swiperefresh.isRefreshing = false
+                    stopLoad()
                     requireContext().showToast(R.string.request_error)
                 }
             }
         })
     }
 
+    private fun stopLoad() {
+        binding.swiperefresh.isRefreshing = false
+    }
+
     private fun addItems(upcoming: Upcoming) {
-        mList.addAll(upcoming.results)
-        totalPages = upcoming.total_pages
-        binding.rvUpcomingMovies.adapter?.notifyDataSetChanged()
+        upcoming.run{
+            mList.addAll(results)
+            totalPages = total_pages
+            binding.rvUpcomingMovies.adapter?.notifyDataSetChanged()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -85,9 +92,9 @@ class HomeFragment : BaseFragment() {
                 }
             }
 
-            adapter = UpcomingAdapter(mList) { movie ->
+            adapter = HomeAdapter(mList) { movieId ->
                 startActivity(
-                    MovieDetailActivity.getStartIntent(requireContext(), movie.id)
+                    MovieDetailActivity.getStartIntent(requireContext(), movieId)
                 )
             }
         }
@@ -95,11 +102,11 @@ class HomeFragment : BaseFragment() {
 
     private fun fetchUpcoming() {
         executeIfConnection {
-            if(it){
+            if (it) {
                 pageLoad++
-                homeViewModel.getUpcomingList(pageLoad)
-            }else{
-                homeViewModel.getByDb()
+                viewModel.getUpcomingList(pageLoad)
+            } else {
+                viewModel.getByDb()
             }
         }
     }

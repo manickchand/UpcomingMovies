@@ -33,34 +33,41 @@ class SearchFragment : BaseFragment() {
         .root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         searchListener()
         bindObserver()
         setupRecyclerView()
+        setupRefresh()
+        fetchGenres()
+    }
+
+    private fun setupRefresh(){
         binding.swiperefreshGenres.setOnRefreshListener {
             fetchGenres()
         }
-        fetchGenres()
     }
 
     private fun bindObserver() {
         viewModel.getGenreListLiveData().observe(viewLifecycleOwner, { state ->
             when (state) {
                 is ViewState.Success -> {
+                    stopLoad()
                     mList.clear()
                     mList.addAll(state.data)
                     binding.rvGenresSearch.adapter?.notifyDataSetChanged()
-                    binding.swiperefreshGenres.isRefreshing = false
                 }
                 is ViewState.Loading -> {
                     binding.swiperefreshGenres.isRefreshing = true
                 }
                 else -> {
-                    binding.swiperefreshGenres.isRefreshing = false
+                    stopLoad()
                     requireContext().showToast(R.string.request_error)
                 }
             }
         })
+    }
+
+    private fun stopLoad(){
+        binding.swiperefreshGenres.isRefreshing = false
     }
 
     private fun setupRecyclerView() {

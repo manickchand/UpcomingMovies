@@ -8,7 +8,7 @@ import com.manickchand.upcomingmovies.domain.models.Movie
 
 class SearchListAdapter(
     private val list: List<Movie>,
-    private val onItemClickListener: ((movie: Movie) -> Unit)
+    private val onItemClickListener: ((movieId: Int) -> Unit)
 ) : RecyclerView.Adapter<SearchListAdapter.ViewHolder?>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -22,13 +22,13 @@ class SearchListAdapter(
 
     inner class ViewHolder(
         private val binding: ItemSearchBinding,
-        private val onItemClickListener: ((movie: Movie) -> Unit)
+        private val onItemClickListener: ((movieId: Int) -> Unit)
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Movie) {
             binding.movie = movie
             binding.root.setOnClickListener {
-                onItemClickListener.invoke(movie)
+                onItemClickListener.invoke(movie.id)
             }
         }
     }

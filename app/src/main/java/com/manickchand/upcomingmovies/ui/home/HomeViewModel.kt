@@ -38,7 +38,7 @@ class HomeViewModel(private val moviesUseCase: MoviesUseCase) : BaseViewModel() 
                 try {
                     moviesLiveData.postValue(ViewState.Success(moviesUseCase.getAllFromDB()))
                 } catch (t: Throwable) {
-                    moviesLiveData.value = ViewState.Failed(t)
+                    moviesLiveData.postValue(ViewState.Failed(t))
                     i(TAG_DEBUC, "[error] getFromDB: ${t.message}")
                 }
             }
